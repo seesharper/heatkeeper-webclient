@@ -1,5 +1,17 @@
 <script lang="ts">
 	import { Input, Label, Button, Checkbox, A } from 'flowbite-svelte';
+	import { login } from '$lib/api';
+	import { currentUser } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	let email = '';
+	let password = '';
+
+	async function submit() {
+		console.log('submit');
+		let user = await login({ password: password, email: email });
+		$currentUser = user;
+		goto('/');
+	}
 </script>
 
 <main>
@@ -7,14 +19,14 @@
 		<div class="grid gap-6 grid-cols-1">
 			<div>
 				<Label for="user_name" class="mb-2">Username</Label>
-				<Input type="text" id="user_name" required />
+				<Input bind:value={email} type="text" id="user_name" required />
 			</div>
 			<div>
 				<Label for="password" class="mb-2">Password</Label>
-				<Input type="password" id="password" required />
+				<Input bind:value={password} type="password" id="password" required />
 			</div>
 			<div class="mt-4">
-				<Button style="width: 100%;" class="mb-2" type="submit">Login</Button>
+				<Button style="width: 100%;" class="mb-2" type="submit" on:click={submit}>Login</Button>
 			</div>
 		</div>
 	</form>
