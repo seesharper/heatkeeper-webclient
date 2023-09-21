@@ -18,3 +18,19 @@ export interface LoginRequest {
     email: string;
     password: string;
 }
+
+export interface DashboardLocation {
+    id: number;
+    name: string;
+    outsideTemperature: number;
+    outsideHumidity: number;
+    insideTemperature: number;
+    insideHumidity: number;
+}
+
+export type LocationInfo = {
+    id: number;
+    name: string;
+    description: string;
+}
+

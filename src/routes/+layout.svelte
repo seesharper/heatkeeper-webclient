@@ -11,7 +11,7 @@
 			>
 		</NavBrand>
 		<NavHamburger on:click={toggle} />
-		<NavUl {hidden}>
+		<NavUl {hidden} on:click={toggle}>
 			<NavLi href="/">Home</NavLi>
 			<NavLi href="/about">About</NavLi>
 			<NavLi href="/docs/components/navbar">Navbar</NavLi>
