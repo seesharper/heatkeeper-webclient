@@ -22,14 +22,14 @@
 			<TableHeadCell />
 		</TableHead>
 		<TableBody>
-			<TableBodyRow>
-				<TableBodyCell>Apple MacBook Pro 17"</TableBodyCell>
-				<TableBodyCell class="text-end"><Button size="sm">Edit</Button></TableBodyCell>
-			</TableBodyRow>
-			<TableBodyRow>
-				<TableBodyCell>Apple MacBook Pro 17"</TableBodyCell>
-				<TableBodyCell class="text-end"><Button size="sm">Edit</Button></TableBodyCell>
-			</TableBodyRow>
+			{#each data.result as item}
+				<TableBodyRow>
+					<TableBodyCell>{item.name}</TableBodyCell>
+					<TableBodyCell class="text-end">
+						<Button size="sm" href="locations/{item.id}">Edit</Button>
+					</TableBodyCell>
+				</TableBodyRow>
+			{/each}
 		</TableBody>
 	</Table>
 </div>

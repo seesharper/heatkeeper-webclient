@@ -28,5 +28,4 @@
 		<div class="mt-4">
 			<Button style="width: 100%;" class="mb-2" type="submit" on:click={submit}>Login</Button>
 		</div>
-	</div>
 </form>
