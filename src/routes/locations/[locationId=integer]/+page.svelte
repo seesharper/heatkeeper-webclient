@@ -4,12 +4,12 @@
 	import { updateLocation } from '$lib/api';
 	import { CenteredHeader, Grid, TextInput, SaveButton } from '$lib/components';
 
-	export let data: PageData;
+	export let location: PageData;
 </script>
 
 <CenteredHeader>Edit location {$page.params.locationId}</CenteredHeader>
 <Grid>
-	<TextInput id="name" label="Name" bind:value={data.name} required />
-	<TextInput id="description" label="Description" bind:value={data.description} />
-	<SaveButton on:click={async () => await updateLocation(data)} />
+	<TextInput id="name" label="Name" bind:value={location.name} required />
+	<TextInput id="description" label="Description" bind:value={location.description} />
+	<SaveButton on:click={async () => await updateLocation(location)} />
 </Grid>

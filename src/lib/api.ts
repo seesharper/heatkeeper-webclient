@@ -13,6 +13,11 @@ export async function login(loginRequest: LoginRequest): Promise<User> {
     return result.data as User;
 }
 
+/**
+ * Updates the location
+ * @param locationInfo - The updated location information.
+ * @returns A Promise that resolves with void when the update is complete.
+ */
 export async function updateLocation(locationInfo: LocationInfo): Promise<void> {
     let requestInfo = {
         method: 'PUT',

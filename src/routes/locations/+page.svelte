@@ -15,21 +15,19 @@
 
 <Heading tag="h3" class="text-center">Locations</Heading>
 
-<div class="m-8">
-	<Table divClass="relative overflow-x-auto rounded-md" hoverable={true}>
-		<TableHead>
-			<TableHeadCell>Name</TableHeadCell>
-			<TableHeadCell />
-		</TableHead>
-		<TableBody>
-			{#each data.result as item}
-				<TableBodyRow>
-					<TableBodyCell>{item.name}</TableBodyCell>
-					<TableBodyCell class="text-end">
-						<Button size="sm" href="locations/{item.id}">Edit</Button>
-					</TableBodyCell>
-				</TableBodyRow>
-			{/each}
-		</TableBody>
-	</Table>
-</div>
+<Table divClass="relative overflow-x-auto rounded-md mt-5" hoverable={true}>
+	<TableHead>
+		<TableHeadCell>Name</TableHeadCell>
+		<TableHeadCell />
+	</TableHead>
+	<TableBody>
+		{#each data.result as item}
+			<TableBodyRow>
+				<TableBodyCell>{item.name}</TableBodyCell>
+				<TableBodyCell class="text-end">
+					<Button size="sm" href="locations/{item.id}">Edit</Button>
+				</TableBodyCell>
+			</TableBodyRow>
+		{/each}
+	</TableBody>
+</Table>
