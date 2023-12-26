@@ -34,3 +34,10 @@ export type LocationInfo = {
     description: string;
 }
 
+export type ZoneInfo = {
+    id: number,
+    name: string,
+    description: string
+    
+}
+
