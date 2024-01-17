@@ -18,6 +18,8 @@ export const load = (async (loadEvent) => {
 
     const response = await fetch(request, settings);
 
+    
+
     let locations: LocationInfo[] = [
         { id: 1, name: 'Home', description: 'Home Description' },
         { id: 2, name: 'Cabin', description: 'Cabin Description' },

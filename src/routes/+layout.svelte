@@ -14,7 +14,7 @@
 		<NavUl {hidden} on:click={toggle}>
 			<NavLi href="/">Home</NavLi>
 			<NavLi href="/about">About</NavLi>
-			<NavLi href="/docs/components/navbar">Navbar</NavLi>
+			<NavLi href="/locations">Locations</NavLi>
 			<NavLi href="/pricing">Pricing</NavLi>
 			<NavLi href="/contact">Contact</NavLi>
 			<NavLi href="/login">Login</NavLi>
