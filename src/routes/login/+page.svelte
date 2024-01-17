@@ -7,10 +7,10 @@
 	let password = '';
 
 	async function submit() {
-		console.log('submit');
+		
 		let user = await login({ password: password, email: email });
 		$currentUser = user;
-		goto('/');
+		goto('/locations');
 	}
 </script>
 

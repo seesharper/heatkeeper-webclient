@@ -6,11 +6,15 @@ import { get } from "svelte/store";
 import { goto } from "$app/navigation";
 
 export async function login(loginRequest: LoginRequest): Promise<User> {
-    const result = await axios.post(
-        `${baseUrl}api/users/authenticate`,
-        loginRequest
-    );
-    return result.data as User;
+    var request = new Request(`${baseUrl}api/users/authenticate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginRequest),
+        credentials: 'same-origin',
+    });
+    var response = await fetch(request, { credentials: 'same-origin' });
+    var user = await response.json() as User;
+    return user;
 }
 
 /**

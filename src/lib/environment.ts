@@ -1,2 +1,2 @@
 import { dev } from '$app/environment';
-export const baseUrl = dev ? 'http://localhost:5000/' : '/';
+export const baseUrl = dev ? 'https://localhost:7167/' : '/';
