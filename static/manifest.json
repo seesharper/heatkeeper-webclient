@@ -1,14 +1,15 @@
 {
     "name": "HeatKeeper",
-    "Description": "HeatKeeper is a web app that allows you to control your heating system from anywhere in the world.",
+    "description": "HeatKeeper is a web app that allows you to control your heating system from anywhere in the world.",
+    "display": "standalone",
+    "start_url": "/",
+    "id": "/",
     "icons": [
         {
-            "src": "favicon.png",
+            "src": "heatkeeper512.png",
+            "sizes": "512x512",
             "type": "image/png",
-            "sizes": "128x128",
             "purpose": "any"
         }
-    ],
-    "start_url": "/",
-    "display": "standalone"
+    ]
 }
