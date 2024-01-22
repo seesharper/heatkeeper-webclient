@@ -46,5 +46,6 @@ export type ZoneReading = {
     name: string,
     temperature: number,
     humidity: number,
+    updated: Date
 }
 

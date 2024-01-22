@@ -21,6 +21,6 @@
 		</NavUl>
 	</Navbar>
 </div>
-<div class="m-10">
+<div class="ml-10 mr-10 mb-10">
 	<slot />
 </div>
