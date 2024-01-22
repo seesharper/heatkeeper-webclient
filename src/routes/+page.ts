@@ -18,6 +18,5 @@ export const load = (async (loadEvent) => {
 
     const response = await fetch(request, settings);
     var readings = await response.json() as ZoneReading[];
-
     return { result: readings }
 }) satisfies PageLoad;

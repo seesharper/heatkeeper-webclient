@@ -6,3 +6,10 @@ self.addEventListener('activate', event => {
 self.addEventListener('install', (event) => {
     console.log('Service worker installed:', event);
 });
+
+self.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+        console.log('APP resumed');
+        window.location.reload();
+    }
+});
