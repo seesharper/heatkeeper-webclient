@@ -38,6 +38,13 @@ export type ZoneInfo = {
     id: number,
     name: string,
     description: string
-    
+
+}
+
+export type ZoneReading = {
+    zoneId: number,
+    name: string,
+    temperature: number,
+    humidity: number,
 }
 
