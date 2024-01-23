@@ -17,5 +17,17 @@
 
 	<div style="display: contents">%sveltekit.body%</div>
 </body>
+<script lang="ts">
+	window.addEventListener("visibilitychange", function () {
+		console.log("Visibility changed");
+		if (document.visibilityState === "visible") {
+			console.log("APP resumed");
+			if (window.location.pathname === "/") {
+				window.location.reload();
+			}
+		}
+	});
+
+</script>
 
 </html>
