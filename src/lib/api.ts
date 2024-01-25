@@ -49,3 +49,16 @@ export async function getDashboardLocations(): Promise<DashboardLocation[]> {
 
     return result.data as DashboardLocation[];
 }
+
+export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {
+    var request = new Request(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    const config: RequestInit = {
+        credentials: 'include'
+    };
+    const response = await svelteFetch(request, config);
+    return await response.json() as T;
+}

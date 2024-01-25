@@ -16,6 +16,8 @@ export const load = (async (loadEvent) => {
         credentials: 'include'
     };
 
+    
+
     const response = await fetch(request, settings);
     var readings = await response.json() as ZoneReading[];
     return { result: readings }
