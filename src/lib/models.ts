@@ -49,3 +49,11 @@ export type ZoneReading = {
     updated: Date
 }
 
+export type LocationDetails = {
+    id: number,
+    name: string,
+    description: string,
+    defaultOutsideZoneId: number,
+    defaultInsideZoneId: number
+}
+
