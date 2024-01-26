@@ -57,3 +57,5 @@ export type LocationDetails = {
     defaultInsideZoneId: number
 }
 
+export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
+
