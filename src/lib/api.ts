@@ -1,9 +1,10 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import type { DashboardLocation, LocationInfo, LoginRequest, User } from "$lib/models";
+import type { DashboardLocation, LocationInfo, LoginRequest, NewLocation, User } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { currentUser } from '$lib/stores';
 import { get } from "svelte/store";
 import { goto } from "$app/navigation";
+import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
 
 export async function login(loginRequest: LoginRequest): Promise<User> {
     var request = new Request(`${baseUrl}api/users/authenticate`, {
@@ -23,13 +24,13 @@ export async function login(loginRequest: LoginRequest): Promise<User> {
  * @returns A Promise that resolves with void when the update is complete.
  */
 export async function updateLocation(locationInfo: LocationInfo): Promise<void> {
-    let requestInfo = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ locationInfo })
-    };
-    console.log(requestInfo);
-    goto('/locations');
+    await Patch(fetch, `${baseUrl}api/locations/${locationInfo.id}`, locationInfo);
+    goto("/locations");
+}
+
+export async function createLocation(newLocation: NewLocation): Promise<void> {
+    await Post(fetch, `${baseUrl}api/locations`, newLocation);
+    goto("/locations");
 }
 
 
@@ -62,3 +63,30 @@ export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestIni
     const response = await svelteFetch(request, config);
     return await response.json() as T;
 }
+
+
+export async function Post<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string, body: T): Promise<void> {
+    var request = new Request(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+
+    const config: RequestInit = {
+        credentials: 'include'
+    };
+    await svelteFetch(request, config);
+}
+
+export async function Patch(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string, body: any): Promise<void> {
+    var request = new Request(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+
+    const config: RequestInit = {
+        credentials: 'include'
+    };
+    await svelteFetch(request, config);
+}   
