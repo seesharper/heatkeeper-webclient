@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { updateLocation } from '$lib/api';
-	import { CenteredHeader, Grid, TextInput, SaveButton } from '$lib/components';
+	import { CenteredHeader, Grid, TextInput, SaveButton, CreateButton } from '$lib/components';
 	import {
 		Button,
 		Label,
@@ -19,7 +19,6 @@
 	export let data: PageData;
 </script>
 
-<CenteredHeader>Location</CenteredHeader>
 <Tabs class="mt-5">
 	<TabItem open title="Details">
 		<Grid>
@@ -44,7 +43,7 @@
 			<SaveButton on:click={async () => await updateLocation(data.location)} />
 		</Grid>
 	</TabItem>
-	<TabItem open title="Zones">
+	<TabItem title="Zones">
 		<Table divClass="relative overflow-x-auto rounded-md mt-5" hoverable={true}>
 			<TableHead>
 				<TableHeadCell>Name</TableHeadCell>
@@ -55,11 +54,12 @@
 					<TableBodyRow>
 						<TableBodyCell>{item.name}</TableBodyCell>
 						<TableBodyCell class="text-end">
-							<Button size="sm" href="/zones/{item.value}">Edit</Button>
+							<Button size="sm" href="{data.location.id}/zones/{item.value}">Edit</Button>
 						</TableBodyCell>
 					</TableBodyRow>
 				{/each}
 			</TableBody>
 		</Table>
+		<CreateButton href="{data.location.id}/zones/new">Create new zone</CreateButton>
 	</TabItem>
 </Tabs>

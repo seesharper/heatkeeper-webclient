@@ -1,13 +1,13 @@
-<script>
-	import { updateLocation } from '$lib/api';
+<script lang="ts">
+	import { createLocation, updateLocation } from '$lib/api';
 	import { CenteredHeader, Grid, SaveButton, TextInput } from '$lib/components';
-	let name = '';
-	let description = '';
+	import type { NewLocation } from '$lib/models';
+	let newLocation: NewLocation = { name: '', description: '' };
 </script>
 
 <CenteredHeader>New location</CenteredHeader>
 <Grid>
-	<TextInput id="name" label="Name" bind:value={name} required />
-	<TextInput id="description" label="Description" bind:value={description} />
-	<SaveButton on:click={async () => await updateLocation(data.location)} />
+	<TextInput id="name" label="Name" bind:value={newLocation.name} required />
+	<TextInput id="description" label="Description" bind:value={newLocation.description} />
+	<SaveButton on:click={async () => await createLocation(newLocation)} />
 </Grid>

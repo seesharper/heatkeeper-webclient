@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { CreateButton } from '$lib/components';
 	import type { PageData } from './$types';
 	import {
 		Button,
@@ -31,3 +32,4 @@
 		{/each}
 	</TableBody>
 </Table>
+<CreateButton href="locations/new">Create new location</CreateButton>
