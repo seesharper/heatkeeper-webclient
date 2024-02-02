@@ -1,10 +1,6 @@
-import axios, { type AxiosRequestConfig } from "axios";
-import type { DashboardLocation, LocationInfo, LoginRequest, NewLocation, User } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewZone, User } from "$lib/models";
 import { baseUrl } from "$lib/environment";
-import { currentUser } from '$lib/stores';
-import { get } from "svelte/store";
 import { goto } from "$app/navigation";
-import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
 
 export async function login(loginRequest: LoginRequest): Promise<User> {
     var request = new Request(`${baseUrl}api/users/authenticate`, {
@@ -18,13 +14,10 @@ export async function login(loginRequest: LoginRequest): Promise<User> {
     return user;
 }
 
-/**
- * Updates the location
- * @param locationInfo - The updated location information.
- * @returns A Promise that resolves with void when the update is complete.
- */
-export async function updateLocation(locationInfo: LocationInfo): Promise<void> {
-    await Patch(fetch, `${baseUrl}api/locations/${locationInfo.id}`, locationInfo);
+export async function updateLocation(locationDetails: LocationDetails): Promise<void> {
+    console.log(locationDetails);
+
+    await Patch(`${baseUrl}api/locations/${locationDetails.id}`, locationDetails);
     goto("/locations");
 }
 
@@ -33,22 +26,16 @@ export async function createLocation(newLocation: NewLocation): Promise<void> {
     goto("/locations");
 }
 
+export async function createZone(newZone: NewZone, locationId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/locations/${locationId}/zones`, newZone);
+}
 
-export async function getDashboardLocations(): Promise<DashboardLocation[]> {
-    console.log(get(currentUser));
+export async function deleteZone(zoneId: number): Promise<void> {
+    await Delete(`${baseUrl}api/zones/${zoneId}`);
+}
 
-
-    const config: AxiosRequestConfig = {
-        headers: { Authorization: "bearer " + get(currentUser).token },
-    };
-
-    const result = await axios.get<DashboardLocation[]>(
-        `${baseUrl}api/dashboard/locations`,
-        config
-    );
-    console.log(result.data);
-
-    return result.data as DashboardLocation[];
+export async function updateZone(zone: ZoneDetails): Promise<void> {
+    await Patch(`${baseUrl}api/zones/${zone.id}`, zone);
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {
@@ -64,7 +51,6 @@ export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestIni
     return await response.json() as T;
 }
 
-
 export async function Post<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string, body: T): Promise<void> {
     var request = new Request(url, {
         method: 'POST',
@@ -78,7 +64,7 @@ export async function Post<T>(svelteFetch: (input: RequestInfo, init?: RequestIn
     await svelteFetch(request, config);
 }
 
-export async function Patch(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string, body: any): Promise<void> {
+export async function Patch<T>(url: string, body: T): Promise<void> {
     var request = new Request(url, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -88,5 +74,17 @@ export async function Patch(svelteFetch: (input: RequestInfo, init?: RequestInit
     const config: RequestInit = {
         credentials: 'include'
     };
-    await svelteFetch(request, config);
-}   
+    await fetch(request, config);
+}
+
+export async function Delete(url: string): Promise<void> {
+    var request = new Request(url, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    const config: RequestInit = {
+        credentials: 'include'
+    };
+    await fetch(request, config);
+}

@@ -19,8 +19,6 @@
 	export let data: PageData;
 </script>
 
-<CenteredHeader>Location</CenteredHeader>
-<h6 class="text-center">{data.location.name}</h6>
 <Tabs class="mt-5">
 	<TabItem open title="Details">
 		<Grid>
@@ -56,12 +54,12 @@
 					<TableBodyRow>
 						<TableBodyCell>{item.name}</TableBodyCell>
 						<TableBodyCell class="text-end">
-							<Button size="sm" href="/zones/{item.value}">Edit</Button>
+							<Button size="sm" href="{data.location.id}/zones/{item.value}">Edit</Button>
 						</TableBodyCell>
 					</TableBodyRow>
 				{/each}
 			</TableBody>
 		</Table>
-		<CreateButton href="/zones/new/1">Create new zone</CreateButton>
+		<CreateButton href="{data.location.id}/zones/new">Create new zone</CreateButton>
 	</TabItem>
 </Tabs>

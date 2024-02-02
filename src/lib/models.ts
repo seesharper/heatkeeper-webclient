@@ -37,6 +37,7 @@ export type LocationInfo = {
 export type NewLocation = { name: string, description: string }
 
 
+
 export type ZoneInfo = {
     id: number,
     name: string,
@@ -61,4 +62,4 @@ export type LocationDetails = {
 
 export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
 
-export type NewZone = { name: string, description: string, locationId: number }
+export type NewZone = { name: string, description: string}
