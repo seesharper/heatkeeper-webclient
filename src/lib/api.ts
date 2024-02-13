@@ -26,6 +26,10 @@ export async function createLocation(newLocation: NewLocation): Promise<void> {
     goto("/locations");
 }
 
+export async function deleteLocation(locationId: number): Promise<void> {
+    await Delete(`${baseUrl}api/locations/${locationId}`);
+}
+
 export async function createZone(newZone: NewZone, locationId: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/locations/${locationId}/zones`, newZone);
 }

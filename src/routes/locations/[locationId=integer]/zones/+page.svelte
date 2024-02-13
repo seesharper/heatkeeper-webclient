@@ -24,10 +24,10 @@
 			<TableBodyRow>
 				<TableBodyCell>{item.name}</TableBodyCell>
 				<TableBodyCell class="text-end">
-					<Button size="sm" href="zones/{item.id}">Edit</Button>
+					<Button size="sm" href="/zones/{item.id}">Edit</Button>
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
 </Table>
-<CreateButton href="{data.location.id}/zones/new">Create new zone</CreateButton>
+<CreateButton href="zones/new">Create new zone</CreateButton>
