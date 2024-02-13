@@ -3,6 +3,7 @@
 	import { deleteLocation, updateLocation } from '$lib/api';
 	import { Grid, TextInput, SaveButton, DeleteButton } from '$lib/components';
 	import { Label, Modal, Select, Button } from 'flowbite-svelte';
+	import SelectInput from '../../../components/SelectInput.svelte';
 	let showDeleteModal = false;
 	export let data: PageData;
 
@@ -20,22 +21,18 @@
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.location.name} required />
 	<TextInput id="description" label="Description" bind:value={data.location.description} />
-	<div>
-		<Label class="mb-2">Default Outside Zone</Label>
-		<Select
-			placeholder="Choose the default outside zone"
-			items={data.zones}
-			bind:value={data.location.defaultOutsideZoneId}
-		></Select>
-	</div>
-	<div>
-		<Label class="mb-2">Default Inside Zone</Label>
-		<Select
-			placeholder="Choose the default inside zone"
-			items={data.zones}
-			bind:value={data.location.defaultInsideZoneId}
-		></Select>
-	</div>
+	<SelectInput
+		label="Default Outside Zone"
+		placeholder="Choose the default outside zone"
+		items={data.zones}
+		bind:value={data.location.defaultOutsideZoneId}
+	></SelectInput>
+	<SelectInput
+		label="Default Inside Zone"
+		placeholder="Choose the default inside zone"
+		items={data.zones}
+		bind:value={data.location.defaultInsideZoneId}
+	></SelectInput>
 	<SaveButton on:click={async () => await handleUpdateLocation()} />
 	<DeleteButton on:click={() => (showDeleteModal = true)} />
 
