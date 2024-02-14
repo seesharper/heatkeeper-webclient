@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { deleteLocation, updateLocation } from '$lib/api';
-	import { Grid, TextInput, SaveButton, DeleteButton } from '$lib/components';
-	import { Label, Modal, Select, Button } from 'flowbite-svelte';
-	import SelectInput from '../../../components/SelectInput.svelte';
-	let showDeleteModal = false;
+	import { Grid, TextInput, SaveButton, SelectInput, DeleteModal } from '$lib/components';
 	export let data: PageData;
 
 	async function handleDeleteLocation() {
@@ -20,30 +17,30 @@
 
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.location.name} required />
+
 	<TextInput id="description" label="Description" bind:value={data.location.description} />
+
 	<SelectInput
 		label="Default Outside Zone"
 		placeholder="Choose the default outside zone"
 		items={data.zones}
 		bind:value={data.location.defaultOutsideZoneId}
 	></SelectInput>
+
 	<SelectInput
 		label="Default Inside Zone"
 		placeholder="Choose the default inside zone"
 		items={data.zones}
 		bind:value={data.location.defaultInsideZoneId}
 	></SelectInput>
-	<SaveButton on:click={async () => await handleUpdateLocation()} />
-	<DeleteButton on:click={() => (showDeleteModal = true)} />
 
-	<Modal title="Delete zone {data.location.name}" bind:open={showDeleteModal} autoclose>
-		<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-			Are you sure you want to delete this location? All data associated with this location will be
-			deleted.
-		</p>
-		<svelte:fragment slot="footer">
-			<Button on:click={async () => await handleDeleteLocation()}>I accept</Button>
-			<Button color="alternative">Decline</Button>
-		</svelte:fragment>
-	</Modal>
+	<SaveButton on:click={async () => await handleUpdateLocation()} />
+
+	<DeleteModal
+		title="Delete location {data.location.name}"
+		handleDelete={async () => await handleDeleteLocation()}
+	>
+		Are you sure you want to delete this location? All data associated with this location will be
+		deleted.
+	</DeleteModal>
 </Grid>

@@ -6,3 +6,5 @@ export { default as DeleteButton } from '../components/DeleteButton.svelte';
 export { default as CreateButton } from '../components/CreateButton.svelte';
 export { default as TabLinks } from '../components/TabLinks.svelte';
 export { default as TabLinkItem } from '../components/TabLinkItem.svelte';
+export { default as SelectInput } from '../components/SelectInput.svelte';
+export { default as DeleteModal } from '../components/DeleteModal.svelte';
