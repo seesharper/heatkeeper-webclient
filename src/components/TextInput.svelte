@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Input, Label } from 'flowbite-svelte';
+	import { Input, Label, type InputType } from 'flowbite-svelte';
 	export let value = '';
 	export let label = '';
 	export let id = '';
