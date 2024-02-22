@@ -8,6 +8,7 @@
 <TabLinks>
 	<TabLinkItem link="/locations/{data.location.id}" title="Details"></TabLinkItem>
 	<TabLinkItem link="/locations/{data.location.id}/zones" title="Zones"></TabLinkItem>
+	<TabLinkItem link="/locations/{data.location.id}/programs" title="Programs"></TabLinkItem>
 </TabLinks>
 
 <slot />

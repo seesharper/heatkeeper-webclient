@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewZone, User } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewZone, ProgramDetails, User } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -15,10 +15,19 @@ export async function login(loginRequest: LoginRequest): Promise<User> {
 }
 
 export async function updateLocation(locationDetails: LocationDetails): Promise<void> {
-    console.log(locationDetails);
-
     await Patch(`${baseUrl}api/locations/${locationDetails.id}`, locationDetails);
     goto("/locations");
+}
+
+export async function updateProgram(programDetails: ProgramDetails): Promise<void> {
+    await Patch(`${baseUrl}api/programs/${programDetails.id}`, programDetails);
+}
+export async function createProgram(programDetails: ProgramDetails): Promise<void> {
+    await Post(fetch, `${baseUrl}api/programs/${programDetails.id}`, programDetails);
+}
+
+export async function deleteProgram(programId: number): Promise<void> {
+    await Delete(`${baseUrl}api/programs/${programId}`);
 }
 
 export async function createLocation(newLocation: NewLocation): Promise<void> {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { CenteredHeader, Grid, TextInput, SaveButton, DeleteButton } from '$lib/components';
+	import { CenteredHeader, Grid, TextInput, SaveButton, DeleteModal } from '$lib/components';
 	import { Toggle, Modal, Button } from 'flowbite-svelte';
 	import { deleteZone, updateZone } from '$lib/api';
 
@@ -27,15 +27,10 @@
 	<Toggle bind:checked={data.zone.isDefaultOutsideZone}>Default outside zone</Toggle>
 	<Toggle bind:checked={data.zone.isDefaultInsideZone}>Default inside zone</Toggle>
 	<SaveButton on:click={async () => await handleUpdateZone()} />
-	<DeleteButton on:click={() => (showDeleteModal = true)} />
-
-	<Modal title="Delete zone {data.zone.name}" bind:open={showDeleteModal} autoclose>
-		<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-			Are you sure you want to delete this zone? All data associated with this zone will be deleted.
-		</p>
-		<svelte:fragment slot="footer">
-			<Button on:click={async () => await handleDeleteZone()}>I accept</Button>
-			<Button color="alternative">Decline</Button>
-		</svelte:fragment>
-	</Modal>
+	<DeleteModal
+		title="Delete zone {data.zone.name}"
+		handleDelete={async () => await handleDeleteZone()}
+	>
+		Are you sure you want to delete this zone? All data associated with this zone will be deleted.
+	</DeleteModal>
 </Grid>
