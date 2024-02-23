@@ -24,10 +24,10 @@
 			<TableBodyRow>
 				<TableBodyCell>{item.name}</TableBodyCell>
 				<TableBodyCell class="text-end">
-					<Button size="sm" href="/programs/{item.id}">Edit</Button>
+					<Button size="sm" href="/schedules/{item.id}">Edit</Button>
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
 </Table>
-<CreateButton href="programs/new">Create new program</CreateButton>
+<CreateButton href="schedules/new">Create new schedule.</CreateButton>

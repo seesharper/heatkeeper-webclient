@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewZone, ProgramDetails, User } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewZone, ProgramDetails, ScheduleDetails, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -22,8 +22,8 @@ export async function updateLocation(locationDetails: LocationDetails): Promise<
 export async function updateProgram(programDetails: ProgramDetails): Promise<void> {
     await Patch(`${baseUrl}api/programs/${programDetails.id}`, programDetails);
 }
-export async function createProgram(programDetails: ProgramDetails): Promise<void> {
-    await Post(fetch, `${baseUrl}api/programs/${programDetails.id}`, programDetails);
+export async function createProgram(newProgram: NewProgram, locationId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/locations/${locationId}/programs`, newProgram);
 }
 
 export async function deleteProgram(programId: number): Promise<void> {
@@ -49,6 +49,18 @@ export async function deleteZone(zoneId: number): Promise<void> {
 
 export async function updateZone(zone: ZoneDetails): Promise<void> {
     await Patch(`${baseUrl}api/zones/${zone.id}`, zone);
+}
+
+export async function createSchedule(newSchedule: NewSchedule, programId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/programs/${programId}/schedules`, newSchedule);
+}
+
+export async function deleteSchedule(scheduleId: number): Promise<void> {
+    await Delete(`${baseUrl}api/schedules/${scheduleId}`);
+}
+
+export async function updateSchedule(schedule: ScheduleDetails): Promise<void> {
+    await Patch(`${baseUrl}api/schedules/${schedule.id}`, schedule);
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {
