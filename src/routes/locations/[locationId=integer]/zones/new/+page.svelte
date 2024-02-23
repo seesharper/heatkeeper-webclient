@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createZone } from '$lib/api';
-	import { CenteredHeader, Grid, SaveButton, TextInput } from '$lib/components';
+	import { Grid, SaveButton, TextInput } from '$lib/components';
 	import type { NewZone } from '$lib/models';
 	import { page } from '$app/stores';
 	let newLocation: NewZone = { name: '', description: '' };
