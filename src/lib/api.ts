@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, User, ZoneDetails } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -65,6 +65,14 @@ export async function deleteSchedule(scheduleId: number): Promise<void> {
 
 export async function updateSchedule(schedule: ScheduleDetails): Promise<void> {
     await Patch(`${baseUrl}api/schedules/${schedule.id}`, schedule);
+}
+
+export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
+    await Patch(`${baseUrl}api/setpoints/${setPoint.id}`, setPoint);
+}
+
+export async function deleteSetPoint(setpointId: number): Promise<void> {
+    await Delete(`${baseUrl}api/setpoints/${setpointId}`);
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {

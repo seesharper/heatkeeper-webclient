@@ -82,3 +82,7 @@ export type ScheduleInfo = { id: number, name: string }
 export type ScheduleDetails = { id: number, name: string, cronExpression: string }
 
 export type SetPointInfo = { id: number, zoneName: string, value: number }
+
+export type SetPointDetails = { id: number, value: number, hysteresis: number, zoneName: string, scheduleName: string }
+
+export type UpdatedSetPoint = { id: number, value: number, hysteresis: number } 
