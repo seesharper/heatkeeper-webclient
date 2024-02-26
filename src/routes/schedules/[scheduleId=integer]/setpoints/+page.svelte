@@ -20,14 +20,14 @@
 		<TableHeadCell />
 	</TableHead>
 	<TableBody>
-		{#each data.schedules as item}
+		{#each data.setPoints as item}
 			<TableBodyRow>
-				<TableBodyCell>{item.name}</TableBodyCell>
+				<TableBodyCell>{item.zoneName} ({item.value}°)</TableBodyCell>
 				<TableBodyCell class="text-end">
-					<Button size="sm" href="/schedules/{item.id}">Edit</Button>
+					<Button size="sm" href="/setpoints/{item.id}">Edit</Button>
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
 </Table>
-<CreateButton href="schedules/new">Create new schedule.</CreateButton>
+<CreateButton href="setpoints/new">Add a zone to this schedule</CreateButton>

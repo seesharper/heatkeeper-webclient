@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewZone, ProgramDetails, ScheduleDetails, User, ZoneDetails } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -55,12 +55,24 @@ export async function createSchedule(newSchedule: NewSchedule, programId: string
     await Post(fetch, `${baseUrl}api/programs/${programId}/schedules`, newSchedule);
 }
 
+export async function createSetPoint(newSetPoint: NewSetPoint, scheduleId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/schedules/${scheduleId}/setpoints`, newSetPoint);
+}
+
 export async function deleteSchedule(scheduleId: number): Promise<void> {
     await Delete(`${baseUrl}api/schedules/${scheduleId}`);
 }
 
 export async function updateSchedule(schedule: ScheduleDetails): Promise<void> {
     await Patch(`${baseUrl}api/schedules/${schedule.id}`, schedule);
+}
+
+export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
+    await Patch(`${baseUrl}api/setpoints/${setPoint.id}`, setPoint);
+}
+
+export async function deleteSetPoint(setpointId: number): Promise<void> {
+    await Delete(`${baseUrl}api/setpoints/${setpointId}`);
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {

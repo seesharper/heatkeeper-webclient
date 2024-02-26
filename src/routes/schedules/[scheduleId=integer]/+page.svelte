@@ -16,7 +16,6 @@
 	}
 </script>
 
-<CenteredHeader>{data.schedule.name}</CenteredHeader>
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.schedule.name} required />
 	<TextInput
