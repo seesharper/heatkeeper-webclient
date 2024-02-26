@@ -75,6 +75,10 @@ export type NewProgram = { name: string, description: string }
 
 export type NewSchedule = { name: string, cronExpression: string }
 
+export type NewSetPoint = { zoneId: number }
+
 export type ScheduleInfo = { id: number, name: string }
 
-export type ScheduleDetails = { id: number, name: string, cronExpression: string } 
+export type ScheduleDetails = { id: number, name: string, cronExpression: string }
+
+export type SetPointInfo = { id: number, zoneName: string, value: number }

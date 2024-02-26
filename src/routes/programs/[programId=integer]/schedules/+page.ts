@@ -7,7 +7,7 @@ export const load = (async (loadEvent) => {
 
     const { fetch: svelteFetch } = loadEvent;
     const { params } = loadEvent;
-    const programs = await Get<ScheduleInfo[]>(svelteFetch, `${baseUrl}api/programs/${params.programId}/schedules`);
-    return { programs: programs }
+    const schedules = await Get<ScheduleInfo[]>(svelteFetch, `${baseUrl}api/programs/${params.programId}/schedules`);
+    return { schedules: schedules }
 
 }) satisfies PageLoad;

@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewZone, ProgramDetails, ScheduleDetails, User, ZoneDetails } from "$lib/models";
+import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -53,6 +53,10 @@ export async function updateZone(zone: ZoneDetails): Promise<void> {
 
 export async function createSchedule(newSchedule: NewSchedule, programId: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/programs/${programId}/schedules`, newSchedule);
+}
+
+export async function createSetPoint(newSetPoint: NewSetPoint, scheduleId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/schedules/${scheduleId}/setpoints`, newSetPoint);
 }
 
 export async function deleteSchedule(scheduleId: number): Promise<void> {
