@@ -87,7 +87,7 @@ export async function deleteSetPoint(setpointId: number): Promise<void> {
     await Delete(`${baseUrl}api/setpoints/${setpointId}`);
 }
 
-export async function publishMqttMessage(payload: string, topic: string): Promise<void> {
+export async function publishMqttMessage(topic: string, payload: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/mqtt`, { payload: payload, topic: topic });
 }
 
