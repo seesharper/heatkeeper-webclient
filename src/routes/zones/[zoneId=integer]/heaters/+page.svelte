@@ -20,14 +20,14 @@
 		<TableHeadCell />
 	</TableHead>
 	<TableBody>
-		{#each data.setPoints as item}
+		{#each data.heaters as item}
 			<TableBodyRow>
-				<TableBodyCell>{item.zoneName} ({item.value}°)</TableBodyCell>
+				<TableBodyCell>{item.name}</TableBodyCell>
 				<TableBodyCell class="text-end">
-					<Button size="sm" href="/setpoints/{item.id}">Edit</Button>
+					<Button size="sm" href="/heaters/{item.id}">Edit</Button>
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
 </Table>
-<CreateButton href="setpoints/new">Add a heater to this zone</CreateButton>
+<CreateButton href="heaters/new">Add a heater to this zone</CreateButton>
