@@ -85,4 +85,10 @@ export type SetPointInfo = { id: number, zoneName: string, value: number }
 
 export type SetPointDetails = { id: number, value: number, hysteresis: number, zoneName: string, scheduleName: string }
 
-export type UpdatedSetPoint = { id: number, value: number, hysteresis: number } 
+export type UpdatedSetPoint = { id: number, value: number, hysteresis: number }
+
+export type HeaterInfo = { id: number, name: string }
+
+export type NewHeater = { name: string, description: string }
+
+export type HeaterDetails = { id: number, name: string, description: string, mqttTopic: string, onPayload: string, offPayload: string, zoneName: string } 

@@ -1,7 +1,7 @@
 import { Get } from '$lib/api';
 import { baseUrl } from '$lib/environment';
 import type { LocationInfo, ZoneDetails, ZoneInfo } from '$lib/models';
-import type { PageLoad } from './$types';
+import type { LayoutLoad } from './$types';
 
 export const load = (async (loadEvent) => {
     const { fetch: svelteFetch } = loadEvent;
@@ -10,4 +10,4 @@ export const load = (async (loadEvent) => {
     var locations = locationInfos.map((location) => ({ value: location.id, name: location.name }));
     const zone = await Get<ZoneDetails>(svelteFetch, `${baseUrl}api/zones/${params.zoneId}`);
     return { zone: zone, locations: locations }
-}) satisfies PageLoad;
+}) satisfies LayoutLoad;

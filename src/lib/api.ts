@@ -1,4 +1,4 @@
-import type { LocationDetails, LocationInfo, LoginRequest, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
+import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -24,6 +24,10 @@ export async function updateProgram(programDetails: ProgramDetails): Promise<voi
 }
 export async function createProgram(newProgram: NewProgram, locationId: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/locations/${locationId}/programs`, newProgram);
+}
+
+export async function createHeater(newProgram: NewHeater, zoneId: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/zones/${zoneId}/heaters`, newProgram);
 }
 
 export async function deleteProgram(programId: number): Promise<void> {
@@ -63,8 +67,16 @@ export async function deleteSchedule(scheduleId: number): Promise<void> {
     await Delete(`${baseUrl}api/schedules/${scheduleId}`);
 }
 
+export async function deleteHeater(heaterId: number): Promise<void> {
+    await Delete(`${baseUrl}api/heaters/${heaterId}`);
+}
+
 export async function updateSchedule(schedule: ScheduleDetails): Promise<void> {
     await Patch(`${baseUrl}api/schedules/${schedule.id}`, schedule);
+}
+
+export async function updateHeater(heater: HeaterDetails): Promise<void> {
+    await Patch(`${baseUrl}api/heaters/${heater.id}`, heater);
 }
 
 export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
@@ -73,6 +85,10 @@ export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
 
 export async function deleteSetPoint(setpointId: number): Promise<void> {
     await Delete(`${baseUrl}api/setpoints/${setpointId}`);
+}
+
+export async function publishMqttMessage(payload: string, topic: string): Promise<void> {
+    await Post(fetch, `${baseUrl}api/mqtt`, { payload: payload, topic: topic });
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {

@@ -19,7 +19,6 @@
 	}
 </script>
 
-<CenteredHeader>Zone</CenteredHeader>
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.zone.name} required />
 	<TextInput id="description" label="Description" bind:value={data.zone.description} />
