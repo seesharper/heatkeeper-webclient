@@ -1,4 +1,4 @@
-import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
+import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 
@@ -79,6 +79,10 @@ export async function updateHeater(heater: HeaterDetails): Promise<void> {
     await Patch(`${baseUrl}api/heaters/${heater.id}`, heater);
 }
 
+export async function updateSensor(sensor: SensorDetails): Promise<void> {
+    await Patch(`${baseUrl}api/sensors/${sensor.id}`, sensor);
+}
+
 export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
     await Patch(`${baseUrl}api/setpoints/${setPoint.id}`, setPoint);
 }
@@ -89,6 +93,15 @@ export async function deleteSetPoint(setpointId: number): Promise<void> {
 
 export async function publishMqttMessage(topic: string, payload: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/mqtt`, { payload: payload, topic: topic });
+}
+
+export async function assignZoneToSensor(zoneId: string, sensorId: number): Promise<void> {
+    await Patch(`${baseUrl}api/sensors/${sensorId}/assignZone`, { zoneId: zoneId });
+}
+
+// TODO Review body
+export async function removeZoneFromSensor(sensorId: number): Promise<void> {
+    await Patch(`${baseUrl}api/sensors/${sensorId}/removeZone`, { sensorId: sensorId });
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {
