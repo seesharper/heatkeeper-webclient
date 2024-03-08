@@ -91,4 +91,10 @@ export type HeaterInfo = { id: number, name: string }
 
 export type NewHeater = { name: string, description: string }
 
-export type HeaterDetails = { id: number, name: string, description: string, mqttTopic: string, onPayload: string, offPayload: string, zoneName: string } 
+export type HeaterDetails = { id: number, name: string, description: string, mqttTopic: string, onPayload: string, offPayload: string, zoneName: string }
+
+export type SensorInfo = { id: number, name: string }
+
+export type UnassignedSensorInfo = { id: number, name: string, externalId: string, lastSeen: Date }
+
+export type SensorDetails = { id: number, name: string, description: string, externalId: string, lastSeen: Date, zoneName: string }
