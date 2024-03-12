@@ -1,35 +1,20 @@
 <script lang="ts">
 	import { Heading, Table, TableBody, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
 	import type { PageData } from './$types';
-	import SelectInput from '../../../../components/SelectInput.svelte';
-	import { page } from '$app/stores';
-	import { activateProgram } from '$lib/api';
-	var locationId = Number.parseInt($page.params.locationId);
+	import SelectInput from '../../../../components/SelectInput.svelte';	
+	import { activateProgram } from '$lib/api';	
 	export let data: PageData;
-	//let initialActiveProgramId = data.dashboardLocations.find(location => location.id === locationId)?.activeProgramId;	
-	let initialActiveProgramId = data.activeProgramId;
-	let currentActiveProgramId = initialActiveProgramId;
-	console.log('initialActiveProgramId', initialActiveProgramId);
 	
 	$: (async() => {
-		if (currentActiveProgramId !== initialActiveProgramId) {
-			await activateProgram(currentActiveProgramId);
-		}		
+			await activateProgram(data.activeProgramId);			
 	})();
-	
-	// $: {
-	// 	if (currentActiveProgramId !== initialActiveProgramId) {
-	// 		await activateProgram(currentActiveProgramId);
-	// 	}		
-	// }
-
 </script>
 <div class="mt-2">
 	<SelectInput
 		label="Active Program"
 		placeholder="Choose the active schedule"
 		items={data.programs}
-		bind:value={currentActiveProgramId}			
+		bind:value={data.activeProgramId}			
 	></SelectInput>
 </div>
 <Table divClass="relative overflow-x-auto rounded-md mt-5" hoverable={true}>

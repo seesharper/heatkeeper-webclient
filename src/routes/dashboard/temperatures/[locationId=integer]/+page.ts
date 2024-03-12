@@ -12,8 +12,7 @@ export const load = (async (loadEvent) => {
     const locationTemperatures = await Get<ZoneReading[]>(svelteFetch, `${baseUrl}api/locations/${params.locationId}/temperatures`);    
     const programInfos = await Get<ProgramInfo[]>(svelteFetch, `${baseUrl}api/locations/${params.locationId}/programs`);    
     const programs = programInfos.map((program) => ({ value: program.id, name: program.name }));
-    const locationDetails = await Get<LocationDetails>(svelteFetch, `${baseUrl}api/locations/${params.locationId}`);    
-    
+    const locationDetails = await Get<LocationDetails>(svelteFetch, `${baseUrl}api/locations/${params.locationId}`);        
     return {
         temperatures: locationTemperatures,
         programs: programs,
