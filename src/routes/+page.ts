@@ -9,6 +9,6 @@ export const load = (async (loadEvent) => {
     // const { fetch : svelteFetch} = loadEvent;
 
     // const dashboardLocations = await Get<DashboardLocation[]>(svelteFetch, `${baseUrl}api/dashboard/locations`);
-    goto('/dashboard/temperatures/1');
+    await goto('/dashboard/temperatures/1');
     // return { dashboardLocations: dashboardLocations }
 }) satisfies PageLoad;
