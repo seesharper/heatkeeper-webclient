@@ -1,6 +1,7 @@
 import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
+import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
 
 export async function login(loginRequest: LoginRequest): Promise<User> {
     var request = new Request(`${baseUrl}api/users/authenticate`, {
@@ -102,6 +103,10 @@ export async function assignZoneToSensor(zoneId: string, sensorId: number): Prom
 // TODO Review body
 export async function removeZoneFromSensor(sensorId: number): Promise<void> {
     await Patch(`${baseUrl}api/sensors/${sensorId}/removeZone`, { sensorId: sensorId });
+}
+
+export async function activateProgram(programId: number): Promise<void> {
+    await Post(fetch, `${baseUrl}api/programs/${programId}/activate`, {});
 }
 
 export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, url: string): Promise<T> {

@@ -20,12 +20,11 @@ export interface LoginRequest {
 }
 
 export interface DashboardLocation {
-    id: number;
+    id: number;    
     name: string;
+    activeProgramId: number;
     outsideTemperature: number;
-    outsideHumidity: number;
-    insideTemperature: number;
-    insideHumidity: number;
+    insideTemperature: number;    
 }
 
 export type LocationInfo = {
@@ -59,7 +58,8 @@ export type LocationDetails = {
     name: string,
     description: string,
     defaultOutsideZoneId: number,
-    defaultInsideZoneId: number
+    defaultInsideZoneId: number,
+    activeProgramId: number
 }
 
 export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
