@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
-
-
 <head>
 	<meta charset="utf-8" />
 	<link rel="manifest" href="/manifest.json">
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 
 	<meta name="viewport" content="width=device-width" />
-
 	%sveltekit.head%
 </head>
 
@@ -22,7 +19,7 @@
 		console.log("Visibility changed");
 		if (document.visibilityState === "visible") {
 			console.log("APP resumed");
-			if (window.location.pathname === "/") {
+			if (window.location.pathname.includes("/dashboard")) {
 				window.location.reload();
 			}
 		}
