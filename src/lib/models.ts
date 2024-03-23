@@ -20,11 +20,11 @@ export interface LoginRequest {
 }
 
 export interface DashboardLocation {
-    id: number;    
+    id: number;
     name: string;
     activeProgramId: number;
     outsideTemperature: number;
-    insideTemperature: number;    
+    insideTemperature: number;
 }
 
 export type LocationInfo = {
@@ -98,3 +98,4 @@ export type SensorInfo = { id: number, name: string }
 export type UnassignedSensorInfo = { id: number, name: string, externalId: string, lastSeen: Date }
 
 export type SensorDetails = { id: number, name: string, description: string, externalId: string, lastSeen: Date, zoneName: string }
+

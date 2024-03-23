@@ -6,5 +6,5 @@
 
 <div>
 	<Label class="mb-2">{label}</Label>
-	<Select {...$$restProps} bind:value></Select>
+	<Select {...$$restProps} bind:value on:change></Select>
 </div>
