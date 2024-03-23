@@ -100,12 +100,17 @@ export async function assignZoneToSensor(zoneId: string, sensorId: number): Prom
     await Patch(`${baseUrl}api/sensors/${sensorId}/assignZone`, { zoneId: zoneId });
 }
 
+export async function createSubscription(subscription: PushSubscription): Promise<void> {
+    await Post(fetch, `${baseUrl}api/pushSubscriptions`, subscription);
+}
+
 // TODO Review body
 export async function removeZoneFromSensor(sensorId: number): Promise<void> {
     await Patch(`${baseUrl}api/sensors/${sensorId}/removeZone`, { sensorId: sensorId });
 }
 
 export async function activateProgram(programId: number): Promise<void> {
+    console.log('Activating program', programId);
     await Post(fetch, `${baseUrl}api/programs/${programId}/activate`, {});
 }
 
