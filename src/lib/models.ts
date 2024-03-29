@@ -6,13 +6,23 @@ export interface User {
     id: number;
 }
 
-export interface UserInfo {
+export interface UserDetails {
     id: number;
     email: string;
     firstName: string;
     lastName: string;
     isAdmin: boolean;
 }
+
+export interface NewUser {
+    email: string;
+    firstName: string;
+    lastName: string;
+    isAdmin: boolean;
+    password: string;
+    confirmedPassword: string;
+}
+
 
 export interface LoginRequest {
     email: string;
@@ -99,3 +109,6 @@ export type UnassignedSensorInfo = { id: number, name: string, externalId: strin
 
 export type SensorDetails = { id: number, name: string, description: string, externalId: string, lastSeen: Date, zoneName: string }
 
+export type UserInfo = { id: number, name: string }
+
+export type UserLocationAccess = { locationId: number, locationName: string, hasAccess: boolean }

@@ -16,6 +16,7 @@
 			<NavLi href={baseUrl}>Home</NavLi>
 			<NavLi href="/about">About</NavLi>
 			<NavLi href="/locations">Configuration</NavLi>
+			<NavLi href="/users">Users</NavLi>
 			<NavLi href="/login">Login</NavLi>
 		</NavUl>
 	</Navbar>

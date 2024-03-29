@@ -1,4 +1,4 @@
-import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, ZoneDetails } from "$lib/models";
+import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -20,6 +20,14 @@ export async function updateLocation(locationDetails: LocationDetails): Promise<
     goto("/locations");
 }
 
+export async function assignLocationToUser(userId: number, locationId: number): Promise<void> {
+    await Patch(`${baseUrl}api/users/${userId}/assignLocation`, { locationId: locationId });
+}
+
+export async function removeLocationFromUser(userId: number, locationId: number): Promise<void> {
+    await Patch(`${baseUrl}api/users/${userId}/removeLocation`, { locationId: locationId });
+}
+
 export async function updateProgram(programDetails: ProgramDetails): Promise<void> {
     await Patch(`${baseUrl}api/programs/${programDetails.id}`, programDetails);
 }
@@ -29,6 +37,11 @@ export async function createProgram(newProgram: NewProgram, locationId: string):
 
 export async function createHeater(newProgram: NewHeater, zoneId: string): Promise<void> {
     await Post(fetch, `${baseUrl}api/zones/${zoneId}/heaters`, newProgram);
+}
+
+export async function createUser(newUser: UserDetails): Promise<void> {
+    await Post(fetch, `${baseUrl}api/users`, newUser);
+
 }
 
 export async function deleteProgram(programId: number): Promise<void> {
@@ -82,6 +95,14 @@ export async function updateHeater(heater: HeaterDetails): Promise<void> {
 
 export async function updateSensor(sensor: SensorDetails): Promise<void> {
     await Patch(`${baseUrl}api/sensors/${sensor.id}`, sensor);
+}
+
+export async function updateUser(user: UserDetails): Promise<void> {
+    await Patch(`${baseUrl}api/users/${user.id}`, user);
+}
+
+export async function deleteUser(userId: number): Promise<void> {
+    await Delete(`${baseUrl}api/users/${userId}`);
 }
 
 export async function updateSetPoint(setPoint: UpdatedSetPoint): Promise<void> {
