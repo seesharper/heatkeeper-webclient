@@ -1,11 +1,11 @@
 import { Get } from '$lib/api';
 import { baseUrl } from '$lib/environment';
-import type { LocationDetails } from '$lib/models';
+import type { UserDetails } from '$lib/models';
 import type { LayoutLoad } from './$types';
 
 export const load = (async (loadEvent) => {
     const { fetch: svelteFetch } = loadEvent;
     const { params } = loadEvent;
-    const location = await Get<LocationDetails>(svelteFetch, `${baseUrl}api/locations/${params.locationId}`);
-    return { location: location }
+    const user = await Get<UserDetails>(svelteFetch, `${baseUrl}api/users/${params.userId}`);
+    return { user: user }
 }) satisfies LayoutLoad;
