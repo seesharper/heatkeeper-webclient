@@ -112,3 +112,7 @@ export type SensorDetails = { id: number, name: string, description: string, ext
 export type UserInfo = { id: number, name: string }
 
 export type UserLocationAccess = { locationId: number, locationName: string, hasAccess: boolean }
+
+export type Measurement = { value: number, created: Date }
+
+export type ZoneInsights = { zoneId: number, zoneName: string, temperatureMeasurements: Measurement[], humidityMeasurements: Measurement[] }
