@@ -3,10 +3,12 @@
 	import type { PageData } from './$types';
 	import SelectInput from '../../../../components/SelectInput.svelte';
 	import { activateProgram } from '$lib/api';
+	import type { ZoneReading } from '$lib/models';
+	import { goto } from '$app/navigation';
 	export let data: PageData;
-	const onChange = () => {
-		console.log('changed');
-	};
+	async function handleClick(zoneReading: ZoneReading) {
+		goto('/zone-details/' + zoneReading.zoneId);
+	}
 	// $: (async() => {
 	// 		await activateProgram(data.activeProgramId);
 	// })();
@@ -26,7 +28,7 @@
 <Table divClass="relative overflow-x-auto rounded-md mt-5" hoverable={true}>
 	<TableBody>
 		{#each data.temperatures as item}
-			<TableBodyRow>
+			<TableBodyRow on:click={() => handleClick(item)}>
 				<TableBodyCell
 					><div>
 						{item.name}
