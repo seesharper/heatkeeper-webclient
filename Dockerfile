@@ -1,4 +1,4 @@
-FROM node:18-alpine AS runtime
+FROM node:22-alpine AS runtime
 
 ENV NODE_ENV=production
 ENV TZ=Europe/Oslo
@@ -8,6 +8,7 @@ WORKDIR /app
 # Delete source code files that were used to build the app that are no longer needed
 COPY output/ ./
 COPY package.json/ ./
+COPY package-lock.json/ ./
 COPY .npmrc/ ./
 RUN npm install
 
