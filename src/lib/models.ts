@@ -112,3 +112,7 @@ export type SensorDetails = { id: number, name: string, description: string, ext
 export type UserInfo = { id: number, name: string }
 
 export type UserLocationAccess = { locationId: number, locationName: string, hasAccess: boolean }
+
+
+// long Id, string Name, string ExternalId, string Zone, string Location, DateTime lastSeen
+export type DeadSensor = { id: number, name: string, externalId: string, zone: string, location: string, lastSeen: Date }
