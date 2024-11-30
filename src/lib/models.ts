@@ -116,3 +116,6 @@ export type UserLocationAccess = { locationId: number, locationName: string, has
 
 // long Id, string Name, string ExternalId, string Zone, string Location, DateTime lastSeen
 export type DeadSensor = { id: number, name: string, externalId: string, zone: string, location: string, lastSeen: Date }
+export type Measurement = { value: number, created: Date }
+
+export type ZoneInsights = { zoneId: number, zoneName: string, temperatureMeasurements: Measurement[], humidityMeasurements: Measurement[] }

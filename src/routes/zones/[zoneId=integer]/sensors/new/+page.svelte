@@ -43,4 +43,4 @@
 		{/each}
 	</TableBody>
 </Table>
-<CreateButton on:click={async () => await handleAssignSensor()}></CreateButton>
+<CreateButton on:click={async () => await handleAssignSensor()}>Add selected sensor to zone</CreateButton>
