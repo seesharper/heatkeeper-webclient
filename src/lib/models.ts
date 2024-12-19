@@ -119,3 +119,25 @@ export type DeadSensor = { id: number, name: string, externalId: string, zone: s
 export type Measurement = { value: number, created: Date }
 
 export type ZoneInsights = { zoneId: number, zoneName: string, temperatureMeasurements: Measurement[], humidityMeasurements: Measurement[] }
+
+export type VatRateInfo = { id: number, name: string, rate: number }
+
+export type NewVatRate = { name: string, rate: number }
+
+export type VatRateDetails = { id: number, name: string, rate: number }
+
+
+
+export type EnergyPriceAreaInfo = { id: number, name: string }
+
+// public record EnergyPriceAreaDetails(long Id, string EIC_Code, string Name, string Description, long VATRateId);
+
+export type EnergyPriceAreaDetails = { id: number, eiC_Code: string, name: string, description: string, vatRateId: number }
+
+// public record PostEnergyPriceAreaCommand(string EIC_Code, string Name, string Description, long VATRateId) : PostCommand;
+
+export type NewEnergyPriceArea = { eiC_Code: string, name: string, description: string, vatRateId: number }
+
+// public record EnergyPrice(DateTime Date, decimal Price, decimal PriceAfterSubsidy);
+
+export type EnergyPrice = { timeStart: Date, timeEnd: Date, price: number, priceAfterSubsidy: number }
