@@ -132,11 +132,11 @@ export type EnergyPriceAreaInfo = { id: number, name: string }
 
 // public record EnergyPriceAreaDetails(long Id, string EIC_Code, string Name, string Description, long VATRateId);
 
-export type EnergyPriceAreaDetails = { id: number, eiC_Code: string, name: string, description: string, vatRateId: number }
+export type EnergyPriceAreaDetails = { id: number, eiC_Code: string, name: string, description: string, displayOrder: number, vatRateId: number }
 
 // public record PostEnergyPriceAreaCommand(string EIC_Code, string Name, string Description, long VATRateId) : PostCommand;
 
-export type NewEnergyPriceArea = { eiC_Code: string, name: string, description: string, vatRateId: number }
+export type NewEnergyPriceArea = { eiC_Code: string, name: string, description: string, displayOrder: number, vatRateId: number }
 
 // public record EnergyPrice(DateTime Date, decimal Price, decimal PriceAfterSubsidy);
 

@@ -16,6 +16,7 @@
 </script>
 
 <Grid>
+	
 	<TextInput id="name" label="Name" bind:value={data.location.name} required />
 
 	<TextInput id="description" label="Description" bind:value={data.location.description} />

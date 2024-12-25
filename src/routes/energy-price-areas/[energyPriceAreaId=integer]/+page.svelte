@@ -4,6 +4,7 @@
 		CenteredHeader,
 		DeleteModal,
 		Grid,
+		NumericInput,
 		SaveButton,
 		SelectInput,
 		TextInput
@@ -17,6 +18,8 @@
 	<TextInput id="name" label="Name" bind:value={data.priceArea.name} required />
 	<TextInput id="description" label="Description" bind:value={data.priceArea.description} />
 	<TextInput id="eicCode" label="EIC Code" bind:value={data.priceArea.eiC_Code} required />
+	<NumericInput id="displayOrder" label="DisplayOrder" bind:value={data.priceArea.displayOrder}
+	></NumericInput>
 	<SelectInput
 		label="Vat Rate"
 		placeholder="Choose the vat rate for this price area"

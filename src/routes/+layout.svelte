@@ -20,7 +20,7 @@
 			<NavLi href="/sensors/deadsensors">Dead Sensors</NavLi>
 			<NavLi href="/vat-rates">Vat Rates</NavLi>
 			<NavLi href="/energy-price-areas">Energy Price Areas</NavLi>
-			<NavLi href="/energy-prices">Energy Prices</NavLi>
+			<NavLi href="/energy-prices/1">Energy Prices</NavLi>
 			<NavLi href="/login">Login</NavLi>
 		</NavUl>
 	</Navbar>
