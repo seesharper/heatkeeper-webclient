@@ -1,4 +1,4 @@
-import type { HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, ZoneDetails } from "$lib/models";
+import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewVatRate, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -47,6 +47,35 @@ export async function createUser(newUser: UserDetails): Promise<void> {
 export async function deleteProgram(programId: number): Promise<void> {
     await Delete(`${baseUrl}api/programs/${programId}`);
 }
+
+export async function createVatRate(newVatRate: NewVatRate): Promise<void> {
+    await Post(fetch, `${baseUrl}api/vat-rates`, newVatRate);
+    goto("/vat-rates");
+}
+
+export async function deleteVatRate(vatRateId: number): Promise<void> {
+    await Delete(`${baseUrl}api/vat-rates/${vatRateId}`);
+}
+
+export async function updateVatRate(vatRate: VatRateDetails): Promise<void> {
+    await Patch(`${baseUrl}api/vat-rates/${vatRate.id}`, vatRate);
+}
+
+export async function createEnergyPriceArea(newEnergyPriceArea: NewEnergyPriceArea): Promise<void> {
+    await Post(fetch, `${baseUrl}api/energy-price-areas`, newEnergyPriceArea);
+    goto("/energy-price-areas");
+}
+
+export async function deleteEnergyPriceArea(energyPriceAreaId: number): Promise<void> {
+    await Delete(`${baseUrl}api/energy-price-areas/${energyPriceAreaId}`);
+    goto("/energy-price-areas");
+}
+
+export async function updateEnergyPriceArea(energyPriceArea: EnergyPriceAreaDetails): Promise<void> {
+    await Patch(`${baseUrl}api/energy-price-areas/${energyPriceArea.id}`, energyPriceArea);
+    goto("/energy-price-areas");
+}
+
 
 export async function createLocation(newLocation: NewLocation): Promise<void> {
     await Post(fetch, `${baseUrl}api/locations`, newLocation);
