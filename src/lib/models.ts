@@ -107,7 +107,7 @@ export type SensorInfo = { id: number, name: string }
 
 export type UnassignedSensorInfo = { id: number, name: string, externalId: string, lastSeen: Date }
 
-export type SensorDetails = { id: number, name: string, description: string, externalId: string, lastSeen: Date, zoneName: string }
+export type SensorDetails = { id: number, name: string, description: string, externalId: string, minutesBeforeConsideredDead: number, lastSeen: Date, zoneName: string }
 
 export type UserInfo = { id: number, name: string }
 
@@ -141,3 +141,25 @@ export type NewEnergyPriceArea = { eiC_Code: string, name: string, description: 
 // public record EnergyPrice(DateTime Date, decimal Price, decimal PriceAfterSubsidy);
 
 export type EnergyPrice = { timeStart: Date, timeEnd: Date, price: number, priceAfterSubsidy: number }
+
+// public record NotificationSubscriptionInfo(long Id, string Name, bool IsSubscribed);
+
+export type NotificationSubscriptionInfo = { id: number, name: string, isSubscribed: boolean }
+
+// public record NotificationTypeInfo(int Id, string Name);
+
+export type NotificationTypeInfo = { id: number, name: string }
+
+
+// public record NotificationDetails(long Id, string Name, string Description, DateTime LastSent, NotificationType NotificationType, string CronExpression, long HoursToSnooze);
+
+export type NotificationDetails = { id: number, name: string, description: string, lastSent: Date, notificationType: number, cronExpression: string, hoursToSnooze: number }
+
+
+/* public record PostNotificationCommand(
+    string Name,
+    string Description,
+    NotificationType NotificationType,
+    string CronExpression,
+    long HoursToSnooze) */
+export type NewNotification = { name: string, description: string, notificationType: number, cronExpression: string, hoursToSnooze: number }

@@ -1,4 +1,4 @@
-import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewProgram, NewSchedule, NewSetPoint, NewVatRate, NewZone, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewVatRate, NewZone, NotificationDetails, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -48,6 +48,14 @@ export async function deleteProgram(programId: number): Promise<void> {
     await Delete(`${baseUrl}api/programs/${programId}`);
 }
 
+export async function deleteNotification(notificationId: number): Promise<void> {
+    await Delete(`${baseUrl}api/notifications/${notificationId}`);
+}
+
+export async function updateNotification(notificationDetails: NotificationDetails): Promise<void> {
+    await Patch(`${baseUrl}api/notifications/${notificationDetails.id}`, notificationDetails);
+}
+
 export async function createVatRate(newVatRate: NewVatRate): Promise<void> {
     await Post(fetch, `${baseUrl}api/vat-rates`, newVatRate);
     goto("/vat-rates");
@@ -65,6 +73,12 @@ export async function createEnergyPriceArea(newEnergyPriceArea: NewEnergyPriceAr
     await Post(fetch, `${baseUrl}api/energy-price-areas`, newEnergyPriceArea);
     goto("/energy-price-areas");
 }
+
+export async function createNotification(newNotification: NewNotification): Promise<void> {
+    await Post(fetch, `${baseUrl}api/notifications`, newNotification);
+    goto("/notifications");
+}
+
 
 export async function deleteEnergyPriceArea(energyPriceAreaId: number): Promise<void> {
     await Delete(`${baseUrl}api/energy-price-areas/${energyPriceAreaId}`);

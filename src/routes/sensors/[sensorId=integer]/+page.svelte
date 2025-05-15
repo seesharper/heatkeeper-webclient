@@ -1,8 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Grid, TextInput, SaveButton, DeleteModal, CenteredHeader } from '$lib/components';
-	import { Toggle, Heading } from 'flowbite-svelte';
-	import { deleteZone, updateSensor, updateZone } from '$lib/api';
+	import {
+		Grid,
+		TextInput,
+		SaveButton,
+		DeleteModal,
+		CenteredHeader,
+		NumericInput
+	} from '$lib/components';
+	import { Heading } from 'flowbite-svelte';
+	import { updateSensor } from '$lib/api';
 
 	export let data: PageData;
 
@@ -28,6 +35,11 @@
 	<TextInput id="name" label="Name" bind:value={data.sensor.name} required />
 	<TextInput id="description" label="Description" bind:value={data.sensor.description} />
 	<TextInput id="externalid" label="External Id" bind:value={data.sensor.externalId} />
+	<NumericInput
+		id="numberOfMinutesBeforeConsideredDead"
+		label="Minutes Before Considered Dead"
+		bind:value={data.sensor.minutesBeforeConsideredDead}
+	/>
 	<SaveButton on:click={async () => await handleUpdateSensor()} />
 	<DeleteModal
 		title="Delete zone {data.sensor.name}"
