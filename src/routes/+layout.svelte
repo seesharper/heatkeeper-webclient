@@ -21,6 +21,7 @@
 			<NavLi href="/vat-rates">Vat Rates</NavLi>
 			<NavLi href="/energy-price-areas">Energy Price Areas</NavLi>
 			<NavLi href="/energy-prices/1">Energy Prices</NavLi>
+			<NavLi href="/notifications">Notifications</NavLi>
 			<NavLi href="/login">Login</NavLi>
 		</NavUl>
 	</Navbar>
