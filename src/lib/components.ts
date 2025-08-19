@@ -11,3 +11,4 @@ export { default as SelectInput } from '../components/SelectInput.svelte';
 export { default as DeleteModal } from '../components/DeleteModal.svelte';
 export { default as NumericInput } from '../components/NumericInput.svelte';
 export { default as EnergyPriceChart } from '../components/EnergyPriceChart.svelte';
+export { default as CronSelector } from '../components/CronSelector.svelte';

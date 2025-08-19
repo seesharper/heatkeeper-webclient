@@ -6,7 +6,8 @@
 		Grid,
 		SaveButton,
 		SelectInput,
-		TextInput
+		TextInput,
+		CronSelector
 	} from '$lib/components';
 	import type { NewNotification } from '$lib/models';
 	import NumericInput from '../../../components/NumericInput.svelte';
@@ -28,12 +29,7 @@
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.notification.name} required />
 	<TextInput id="description" label="Description" bind:value={data.notification.description} />
-	<TextInput
-		id="cronExpression"
-		label="Cron Expression"
-		bind:value={data.notification.cronExpression}
-		required
-	/>
+	<CronSelector id="cronExpression" label="Schedule" bind:value={data.notification.cronExpression} />
 	<NumericInput
 		id="hoursToSnooze"
 		label="Hours To Snooze"

@@ -1,6 +1,13 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { CenteredHeader, Grid, TextInput, SaveButton, DeleteModal } from '$lib/components';
+	import {
+		CenteredHeader,
+		Grid,
+		TextInput,
+		SaveButton,
+		DeleteModal,
+		CronSelector
+	} from '$lib/components';
 	import { deleteSchedule, deleteZone, updateSchedule, updateZone } from '$lib/api';
 
 	export let data: PageData;
@@ -18,11 +25,7 @@
 
 <Grid>
 	<TextInput id="name" label="Name" bind:value={data.schedule.name} required />
-	<TextInput
-		id="cronExpression"
-		label="Cron Expression"
-		bind:value={data.schedule.cronExpression}
-	/>
+	<CronSelector id="cronExpression" label="Schedule" bind:value={data.schedule.cronExpression} />
 
 	<SaveButton on:click={async () => await handleUpdateSchedule()} />
 	<DeleteModal
