@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { createNotification } from '$lib/api';
-	import { CenteredHeader, Grid, SaveButton, SelectInput, TextInput } from '$lib/components';
+	import {
+		CenteredHeader,
+		Grid,
+		SaveButton,
+		SelectInput,
+		TextInput,
+		CronSelector
+	} from '$lib/components';
 	import type { NewNotification } from '$lib/models';
 	import NumericInput from '../../../components/NumericInput.svelte';
 	let newNotification: NewNotification = {
@@ -18,12 +25,7 @@
 <Grid>
 	<TextInput id="name" label="Name" bind:value={newNotification.name} required />
 	<TextInput id="description" label="Description" bind:value={newNotification.description} />
-	<TextInput
-		id="cronExpression"
-		label="Cron Expression"
-		bind:value={newNotification.cronExpression}
-		required
-	/>
+	<CronSelector id="cronExpression" label="Schedule" bind:value={newNotification.cronExpression} />
 	<NumericInput
 		id="hoursToSnooze"
 		label="Hours To Snooze"
