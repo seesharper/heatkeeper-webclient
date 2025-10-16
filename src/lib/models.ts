@@ -163,3 +163,33 @@ export type NotificationDetails = { id: number, name: string, description: strin
     string CronExpression,
     long HoursToSnooze) */
 export type NewNotification = { name: string, description: string, notificationType: number, cronExpression: string, hoursToSnooze: number }
+
+export type TriggerInfo = { id: number, name: string }
+
+export type EventInfo = { id: number, name: string }
+
+export type Condition = {
+    leftSource: string,
+    leftKey: string,
+    operator: number,
+    rightSource: string,
+    rightKeyOrLiteral: string
+}
+
+export type ActionBinding = {
+    actionName: string,
+    parameterMap: Record<string, string>
+}
+
+export type TriggerDefinition = {
+    name: string,
+    appliesToEventType: string,
+    values: Record<string, any>,
+    conditions: Condition[],
+    actions: ActionBinding[],
+    valuesFrozen: Record<string, any>
+}
+
+export type NewTrigger = { name: string }
+
+export type PatchTrigger = { id: number, trigger: TriggerDefinition }

@@ -1,4 +1,4 @@
-import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewVatRate, NewZone, NotificationDetails, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -227,4 +227,19 @@ export async function Delete(url: string): Promise<void> {
         credentials: 'include'
     };
     await fetch(request, config);
+}
+
+export async function createTrigger(newTrigger: NewTrigger): Promise<void> {
+    await Post(fetch, `${baseUrl}api/triggers`, newTrigger);
+    goto("/triggers");
+}
+
+export async function updateTrigger(patchTrigger: PatchTrigger): Promise<void> {
+    await Patch(`${baseUrl}api/triggers/${patchTrigger.id}`, patchTrigger);
+    goto("/triggers");
+}
+
+export async function deleteTrigger(triggerId: number): Promise<void> {
+    await Delete(`${baseUrl}api/triggers/${triggerId}`);
+    goto("/triggers");
 }
