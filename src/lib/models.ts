@@ -1,5 +1,3 @@
-import { e } from "vitest/dist/reporters-qc5Smpt5.js";
-
 export interface User {
     token: string;
     name: string;
