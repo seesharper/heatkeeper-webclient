@@ -19,10 +19,17 @@
 
 	export let data: LayoutData;
 	let trigger: TriggerDefinition = { ...data.trigger };
+	let previousEventType = trigger.appliesToEventType;
 
 	// Initialize conditions array if it doesn't exist
 	if (!trigger.conditions) {
 		trigger.conditions = [];
+	}
+
+	// Clear conditions when event type changes
+	$: if (trigger.appliesToEventType !== previousEventType && previousEventType !== undefined) {
+		trigger.conditions = [];
+		previousEventType = trigger.appliesToEventType;
 	}
 
 	// Operator options for the select dropdown
