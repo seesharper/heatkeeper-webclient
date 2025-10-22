@@ -1,3 +1,5 @@
+import { e } from "vitest/dist/reporters-qc5Smpt5.js";
+
 export interface User {
     token: string;
     name: string;
@@ -168,13 +170,88 @@ export type TriggerInfo = { id: number, name: string }
 
 export type EventInfo = { id: number, name: string }
 
-export type Condition = {
-    leftSource: string,
-    leftKey: string,
-    operator: number,
-    rightSource: string,
-    rightKeyOrLiteral: string
+/*
+public sealed record EventDetails(
+    int Id,
+    string Name,
+    string Description,
+    string EventType,
+    IReadOnlyList<EventPropertyInfo> Properties
+);
+*/
+
+
+/*
+public sealed record EventPropertyInfo(
+    string Name,
+    string Type,
+    bool IsNullable,
+    string? Description = null
+);
+*/
+
+export type EventPropertyInfo = {
+    name: string,
+    type: string,
+    isNullable: boolean,
+    description?: string
 }
+
+export type EventDetails = {
+    id: number,
+    name: string,
+    description: string,
+    eventType: string,
+    properties: EventPropertyInfo[]
+}
+
+/*
+/// <summary>
+/// Operators for comparing values in trigger conditions.
+/// Kept intentionally small so you can easily render them in a UI picker.
+/// </summary>
+public enum ComparisonOperator
+{
+    Equals,
+    NotEquals,
+    GreaterThan,
+    GreaterOrEqual,
+    LessThan,
+    LessOrEqual,
+    Contains,       // string contains
+    StartsWith,     // string starts with
+    EndsWith        // string ends with
+}
+*/
+
+export enum ComparisonOperator {
+    Equals = 0,
+    NotEquals = 1,
+    GreaterThan = 2,
+    GreaterOrEqual = 3,
+    LessThan = 4,
+    LessOrEqual = 5,
+    Contains = 6,       // string contains
+    StartsWith = 7,     // string starts with
+    EndsWith = 8        // string ends with
+}
+
+
+/*
+public sealed record Condition
+(
+    string PropertyName,
+    ComparisonOperator Operator,
+    string Value
+);
+*/
+
+export type Condition = {
+    propertyName: string,
+    operator: ComparisonOperator,
+    value: string
+}
+
 
 export type ActionBinding = {
     actionName: string,
@@ -184,10 +261,8 @@ export type ActionBinding = {
 export type TriggerDefinition = {
     name: string,
     appliesToEventType: string,
-    values: Record<string, any>,
     conditions: Condition[],
     actions: ActionBinding[],
-    valuesFrozen: Record<string, any>
 }
 
 export type NewTrigger = { name: string }

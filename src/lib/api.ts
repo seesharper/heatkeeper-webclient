@@ -1,4 +1,4 @@
-import type { EnergyPriceAreaDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -242,4 +242,8 @@ export async function updateTrigger(patchTrigger: PatchTrigger): Promise<void> {
 export async function deleteTrigger(triggerId: number): Promise<void> {
     await Delete(`${baseUrl}api/triggers/${triggerId}`);
     goto("/triggers");
+}
+
+export async function getEventDetails(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, eventId: number): Promise<EventDetails> {
+    return await Get<EventDetails>(svelteFetch, `${baseUrl}api/events/${eventId}`);
 }
