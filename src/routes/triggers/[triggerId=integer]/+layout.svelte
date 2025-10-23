@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { SaveButton, DeleteButton, SelectInput, CreateButton } from '$lib/components';
-	import { updateTrigger, deleteTrigger } from '$lib/api';
-	import type { TriggerDefinition, PatchTrigger, Condition } from '$lib/models';
+	import { updateTrigger, deleteTrigger, getEventDetails } from '$lib/api';
+	import type { TriggerDefinition, PatchTrigger, Condition, EventDetails } from '$lib/models';
 	import { TextInput } from '$lib/components';
 	import {
 		Heading,
@@ -16,20 +16,53 @@
 	import type { LayoutData } from './$types';
 	import Grid from '../../../components/Grid.svelte';
 	import { ComparisonOperator } from '$lib/models';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
 	export let data: LayoutData;
 	let trigger: TriggerDefinition = { ...data.trigger };
 	let previousEventType = trigger.appliesToEventType;
+	let eventDetails: EventDetails | null = null;
+	let propertyOptions: { value: string; name: string }[] = [];
+	let mounted = false;
 
 	// Initialize conditions array if it doesn't exist
 	if (!trigger.conditions) {
 		trigger.conditions = [];
 	}
 
-	// Clear conditions when event type changes
-	$: if (trigger.appliesToEventType !== previousEventType && previousEventType !== undefined) {
+	onMount(() => {
+		mounted = true;
+		loadEventDetails();
+	});
+
+	// Fetch event details when event type changes
+	$: if (
+		trigger.appliesToEventType !== previousEventType &&
+		previousEventType !== undefined &&
+		mounted
+	) {
 		trigger.conditions = [];
 		previousEventType = trigger.appliesToEventType;
+		loadEventDetails();
+	}
+
+	async function loadEventDetails() {
+		if (!browser || !trigger.appliesToEventType) {
+			eventDetails = null;
+			propertyOptions = [];
+			return;
+		}
+
+		// Find the event info that matches the selected event type
+		const eventInfo = data.eventInfos.find((e) => e.name === trigger.appliesToEventType);
+		if (eventInfo) {
+			eventDetails = await getEventDetails(fetch, eventInfo.id);
+			propertyOptions = eventDetails.properties.map((prop) => ({
+				value: prop.name,
+				name: prop.name
+			}));
+		}
 	}
 
 	// Operator options for the select dropdown
@@ -103,7 +136,11 @@
 					{#each trigger.conditions as condition, index}
 						<TableBodyRow>
 							<TableBodyCell>
-								<TextInput bind:value={condition.propertyName} />
+								<SelectInput
+									items={propertyOptions}
+									bind:value={condition.propertyName}
+									placeholder="Select property"
+								/>
 							</TableBodyCell>
 							<TableBodyCell>
 								<SelectInput items={operatorOptions} bind:value={condition.operator} />
