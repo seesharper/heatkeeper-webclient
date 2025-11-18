@@ -124,38 +124,69 @@
 	/>
 
 	{#if trigger.conditions && trigger.conditions.length > 0}
-		<div class="col-span-full">
-			<Table divClass="relative overflow-x-auto rounded-md mt-5">
-				<TableHead>
-					<TableHeadCell>Property Name</TableHeadCell>
-					<TableHeadCell>Operator</TableHeadCell>
-					<TableHeadCell>Value</TableHeadCell>
-					<TableHeadCell>Actions</TableHeadCell>
-				</TableHead>
-				<TableBody>
-					{#each trigger.conditions as condition, index}
-						<TableBodyRow>
-							<TableBodyCell>
-								<SelectInput
-									items={propertyOptions}
-									bind:value={condition.propertyName}
-									placeholder="Select property"
-								/>
-							</TableBodyCell>
-							<TableBodyCell>
-								<SelectInput items={operatorOptions} bind:value={condition.operator} />
-							</TableBodyCell>
-							<TableBodyCell>
-								<TextInput bind:value={condition.value} />
-							</TableBodyCell>
-							<TableBodyCell>
-								<Button size="xs" color="red" on:click={() => deleteCondition(index)}>Delete</Button
-								>
-							</TableBodyCell>
-						</TableBodyRow>
-					{/each}
-				</TableBody>
-			</Table>
+		<div class="col-span-full space-y-4">
+			<!-- Desktop Table View - Hidden on mobile -->
+			<div class="hidden md:block">
+				<Table divClass="relative overflow-x-auto rounded-md mt-5">
+					<TableHead>
+						<TableHeadCell>Property Name</TableHeadCell>
+						<TableHeadCell>Operator</TableHeadCell>
+						<TableHeadCell>Value</TableHeadCell>
+						<TableHeadCell>Actions</TableHeadCell>
+					</TableHead>
+					<TableBody>
+						{#each trigger.conditions as condition, index}
+							<TableBodyRow>
+								<TableBodyCell>
+									<SelectInput
+										items={propertyOptions}
+										bind:value={condition.propertyName}
+										placeholder="Select property"
+									/>
+								</TableBodyCell>
+								<TableBodyCell>
+									<SelectInput items={operatorOptions} bind:value={condition.operator} />
+								</TableBodyCell>
+								<TableBodyCell>
+									<TextInput bind:value={condition.value} />
+								</TableBodyCell>
+								<TableBodyCell>
+									<Button size="xs" color="red" on:click={() => deleteCondition(index)}
+										>Delete</Button
+									>
+								</TableBodyCell>
+							</TableBodyRow>
+						{/each}
+					</TableBody>
+				</Table>
+			</div>
+
+			<!-- Mobile Card View - Visible on mobile only -->
+			<div class="md:hidden space-y-4">
+				{#each trigger.conditions as condition, index}
+					<div
+						class="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+					>
+						<div class="space-y-3">
+							<SelectInput
+								label="Property Name"
+								items={propertyOptions}
+								bind:value={condition.propertyName}
+								placeholder="Select property"
+							/>
+							<SelectInput
+								label="Operator"
+								items={operatorOptions}
+								bind:value={condition.operator}
+							/>
+							<TextInput label="Value" bind:value={condition.value} />
+							<Button size="sm" color="red" class="w-full" on:click={() => deleteCondition(index)}>
+								Delete Condition
+							</Button>
+						</div>
+					</div>
+				{/each}
+			</div>
 		</div>
 	{:else}
 		<div class="col-span-full text-center text-gray-500 dark:text-gray-400 py-4">
