@@ -168,6 +168,8 @@ export type TriggerInfo = { id: number, name: string }
 
 export type EventInfo = { id: number, name: string }
 
+export type ActionInfo = { id: number, name: string, displayName: string }
+
 /*
 public sealed record EventDetails(
     int Id,
@@ -252,7 +254,7 @@ export type Condition = {
 
 
 export type ActionBinding = {
-    actionName: string,
+    actionId: number,
     parameterMap: Record<string, string>
 }
 
@@ -266,3 +268,51 @@ export type TriggerDefinition = {
 export type NewTrigger = { name: string }
 
 export type PatchTrigger = { id: number, trigger: TriggerDefinition }
+
+/*
+public sealed class ActionDetails
+{
+    /// <summary>
+    /// Unique identifier for the action type.
+    /// </summary>
+    public required int Id { get; init; }
+
+    /// <summary>
+    /// The unique name of the action.
+    /// </summary>
+    public required string Name { get; init; }
+
+    /// <summary>
+    /// Human-readable display name for the action.
+    /// </summary>
+    public required string DisplayName { get; init; }
+
+    /// <summary>
+    /// Description of what this action does.
+    /// </summary>
+    public required string Description { get; init; }
+
+    /// <summary>
+    /// Schema describing the parameters this action accepts.
+    /// </summary>
+    public required IReadOnlyList<ActionParameter> ParameterSchema { get; init; }
+}
+
+
+public sealed record ActionParameter(string Name, string Type, bool Required, string? Description = null);
+*/
+
+export type ActionParameter = {
+    name: string,
+    type: string,
+    required: boolean,
+    description?: string
+}
+
+export type ActionDetails = {
+    id: number,
+    name: string,
+    displayName: string,
+    description: string,
+    parameterSchema: ActionParameter[]
+}
