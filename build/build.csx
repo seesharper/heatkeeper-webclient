@@ -1,4 +1,4 @@
-#load "nuget:Dotnet.Build, 0.22.0"
+#load "nuget:Dotnet.Build, 0.26.0"
 #load "nuget:dotnet-steps, 0.0.2"
 
 /*Need to override these because web project does not have csproj with these variable defined*/

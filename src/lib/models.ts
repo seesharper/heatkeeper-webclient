@@ -163,3 +163,156 @@ export type NotificationDetails = { id: number, name: string, description: strin
     string CronExpression,
     long HoursToSnooze) */
 export type NewNotification = { name: string, description: string, notificationType: number, cronExpression: string, hoursToSnooze: number }
+
+export type TriggerInfo = { id: number, name: string }
+
+export type EventInfo = { id: number, name: string }
+
+export type ActionInfo = { id: number, name: string, displayName: string }
+
+/*
+public sealed record EventDetails(
+    int Id,
+    string Name,
+    string Description,
+    string EventType,
+    IReadOnlyList<EventPropertyInfo> Properties
+);
+*/
+
+
+/*
+public sealed record EventPropertyInfo(
+    string Name,
+    string Type,
+    bool IsNullable,
+    string? Description = null
+);
+*/
+
+export type EventPropertyInfo = {
+    name: string,
+    type: string,
+    isNullable: boolean,
+    description?: string
+}
+
+export type EventDetails = {
+    id: number,
+    name: string,
+    description: string,
+    eventType: string,
+    properties: EventPropertyInfo[]
+}
+
+/*
+/// <summary>
+/// Operators for comparing values in trigger conditions.
+/// Kept intentionally small so you can easily render them in a UI picker.
+/// </summary>
+public enum ComparisonOperator
+{
+    Equals,
+    NotEquals,
+    GreaterThan,
+    GreaterOrEqual,
+    LessThan,
+    LessOrEqual,
+    Contains,       // string contains
+    StartsWith,     // string starts with
+    EndsWith        // string ends with
+}
+*/
+
+export enum ComparisonOperator {
+    Equals = 0,
+    NotEquals = 1,
+    GreaterThan = 2,
+    GreaterOrEqual = 3,
+    LessThan = 4,
+    LessOrEqual = 5,
+    Contains = 6,       // string contains
+    StartsWith = 7,     // string starts with
+    EndsWith = 8        // string ends with
+}
+
+
+/*
+public sealed record Condition
+(
+    string PropertyName,
+    ComparisonOperator Operator,
+    string Value
+);
+*/
+
+export type Condition = {
+    propertyName: string,
+    operator: ComparisonOperator,
+    value: string
+}
+
+
+export type ActionBinding = {
+    actionId: number,
+    parameterMap: Record<string, string>
+}
+
+export type TriggerDefinition = {
+    name: string,
+    appliesToEventType: string,
+    conditions: Condition[],
+    actions: ActionBinding[],
+}
+
+export type NewTrigger = { name: string }
+
+export type PatchTrigger = { id: number, trigger: TriggerDefinition }
+
+/*
+public sealed class ActionDetails
+{
+    /// <summary>
+    /// Unique identifier for the action type.
+    /// </summary>
+    public required int Id { get; init; }
+
+    /// <summary>
+    /// The unique name of the action.
+    /// </summary>
+    public required string Name { get; init; }
+
+    /// <summary>
+    /// Human-readable display name for the action.
+    /// </summary>
+    public required string DisplayName { get; init; }
+
+    /// <summary>
+    /// Description of what this action does.
+    /// </summary>
+    public required string Description { get; init; }
+
+    /// <summary>
+    /// Schema describing the parameters this action accepts.
+    /// </summary>
+    public required IReadOnlyList<ActionParameter> ParameterSchema { get; init; }
+}
+
+
+public sealed record ActionParameter(string Name, string Type, bool Required, string? Description = null);
+*/
+
+export type ActionParameter = {
+    name: string,
+    type: string,
+    required: boolean,
+    description?: string
+}
+
+export type ActionDetails = {
+    id: number,
+    name: string,
+    displayName: string,
+    description: string,
+    parameterSchema: ActionParameter[]
+}
