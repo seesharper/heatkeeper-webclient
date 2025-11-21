@@ -385,7 +385,7 @@
 						{/if}
 
 						<div class="mt-4">
-							<Button size="sm" color="red" on:click={() => deleteAction(actionIndex)}>
+							<Button size="sm" color="red" class="w-full" on:click={() => deleteAction(actionIndex)}>
 								Delete Action
 							</Button>
 						</div>
