@@ -255,3 +255,16 @@ export async function getActionDetails(svelteFetch: (input: RequestInfo, init?: 
 export async function getActions(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>): Promise<ActionInfo[]> {
     return await Get<ActionInfo[]>(svelteFetch, `${baseUrl}api/actions`);
 }
+
+export async function testAction(svelteFetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>, actionBinding: any): Promise<Response> {
+    var request = new Request(`${baseUrl}api/actions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(actionBinding)
+    });
+
+    const config: RequestInit = {
+        credentials: 'include'
+    };
+    return await svelteFetch(request, config);
+}

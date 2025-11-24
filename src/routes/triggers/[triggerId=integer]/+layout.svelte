@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { SaveButton, DeleteButton, SelectInput, CreateButton } from '$lib/components';
-	import { updateTrigger, deleteTrigger, getEventDetails, getActionDetails } from '$lib/api';
+	import {
+		updateTrigger,
+		deleteTrigger,
+		getEventDetails,
+		getActionDetails,
+		testAction
+	} from '$lib/api';
 	import type {
 		TriggerDefinition,
 		PatchTrigger,
@@ -18,13 +24,15 @@
 		TableBodyRow,
 		TableHead,
 		TableHeadCell,
-		Button
+		Button,
+		Toast
 	} from 'flowbite-svelte';
 	import type { LayoutData } from './$types';
 	import Grid from '../../../components/Grid.svelte';
 	import { ComparisonOperator } from '$lib/models';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { blur } from 'svelte/transition';
 
 	export let data: LayoutData;
 	let trigger: TriggerDefinition = { ...data.trigger };
@@ -33,6 +41,8 @@
 	let propertyOptions: { value: string; name: string }[] = [];
 	let mounted = false;
 	let actionDetailsMap: Map<number, ActionDetails> = new Map();
+	let testSuccessToasts: boolean[] = [];
+	let testErrorToasts: boolean[] = [];
 
 	// Initialize conditions array if it doesn't exist
 	if (!trigger.conditions) {
@@ -140,6 +150,27 @@
 
 	async function deleteAction(index: number) {
 		trigger.actions = trigger.actions.filter((_, i) => i !== index);
+	}
+
+	async function testActionHandler(index: number) {
+		const actionBinding = trigger.actions[index];
+		const response = await testAction(fetch, actionBinding);
+
+		if (response.ok) {
+			testSuccessToasts[index] = true;
+			testSuccessToasts = testSuccessToasts;
+			setTimeout(() => {
+				testSuccessToasts[index] = false;
+				testSuccessToasts = testSuccessToasts;
+			}, 3000);
+		} else {
+			testErrorToasts[index] = true;
+			testErrorToasts = testErrorToasts;
+			setTimeout(() => {
+				testErrorToasts[index] = false;
+				testErrorToasts = testErrorToasts;
+			}, 3000);
+		}
 	}
 
 	// When action ID changes, fetch its details and initialize parameter map
@@ -384,8 +415,71 @@
 							<div class="text-gray-500 dark:text-gray-400">Loading action details...</div>
 						{/if}
 
-						<div class="mt-4">
-							<Button size="sm" color="red" class="w-full" on:click={() => deleteAction(actionIndex)}>
+						<div class="mt-4 space-y-2">
+							<Button
+								size="sm"
+								color="blue"
+								class="w-full"
+								on:click={() => testActionHandler(actionIndex)}
+							>
+								Test
+							</Button>
+							{#if testSuccessToasts[actionIndex]}
+								<Toast
+									transition={blur}
+									params={{ amount: 10 }}
+									bind:open={testSuccessToasts[actionIndex]}
+									color="green"
+									class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200"
+								>
+									<svelte:fragment slot="icon">
+										<svg
+											class="w-5 h-5"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</svelte:fragment>
+									Action test completed successfully.
+								</Toast>
+							{/if}
+							{#if testErrorToasts[actionIndex]}
+								<Toast
+									transition={blur}
+									params={{ amount: 10 }}
+									bind:open={testErrorToasts[actionIndex]}
+									color="red"
+									class="bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200"
+								>
+									<svelte:fragment slot="icon">
+										<svg
+											class="w-5 h-5"
+											fill="currentColor"
+											viewBox="0 0 20 20"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+												clip-rule="evenodd"
+											></path>
+										</svg>
+									</svelte:fragment>
+									Action test failed. Please check the configuration.
+								</Toast>
+							{/if}
+							<Button
+								size="sm"
+								color="red"
+								class="w-full"
+								on:click={() => deleteAction(actionIndex)}
+							>
 								Delete Action
 							</Button>
 						</div>
