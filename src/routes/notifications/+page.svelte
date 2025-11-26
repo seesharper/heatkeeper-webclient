@@ -13,13 +13,14 @@
 		Heading,
 		Toggle
 	} from 'flowbite-svelte';
+	import { createNotificationSubscription, deleteNotificationSubscription } from '$lib/api';
 	export let data: PageData;
 
-	async function handleAccessChanged(item: NotificationSubscriptionInfo) {
+	async function handleSubscriptionChanged(item: NotificationSubscriptionInfo) {
 		if (item.isSubscribed) {
-			//await assignLocationToUser(data.user.id, item.locationId);
+			await createNotificationSubscription({ notificationId: item.id });
 		} else {
-			//await removeLocationFromUser(data.user.id, item.locationId);
+			await deleteNotificationSubscription(item.id);
 		}
 	}
 </script>
@@ -35,8 +36,9 @@
 		{#each data.result as item}
 			<TableBodyRow>
 				<TableBodyCell class="text-end">
-					<Toggle bind:checked={item.isSubscribed} on:change={async () => handleAccessChanged(item)}
-						>{item.name}</Toggle
+					<Toggle
+						bind:checked={item.isSubscribed}
+						on:change={async () => handleSubscriptionChanged(item)}>{item.name}</Toggle
 					>
 				</TableBodyCell>
 				<TableBodyCell class="text-end">

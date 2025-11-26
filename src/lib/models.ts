@@ -316,3 +316,7 @@ export type ActionDetails = {
     description: string,
     parameterSchema: ActionParameter[]
 }
+
+export type NotificationSubscription = {
+    notificationId: number
+}
