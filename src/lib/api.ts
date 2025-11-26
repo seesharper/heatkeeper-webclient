@@ -1,4 +1,4 @@
-import type { ActionDetails, ActionInfo, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { ActionDetails, ActionInfo, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -267,4 +267,12 @@ export async function testAction(svelteFetch: (input: RequestInfo, init?: Reques
         credentials: 'include'
     };
     return await svelteFetch(request, config);
+}
+
+export async function createNotificationSubscription(notificationSubscription: NotificationSubscription): Promise<void> {
+    await Post(fetch, `${baseUrl}api/notification-subscriptions`, notificationSubscription);
+}
+
+export async function deleteNotificationSubscription(id: number): Promise<void> {
+    await Delete(`${baseUrl}api/notification-subscriptions/${id}`);
 }
