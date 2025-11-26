@@ -36,8 +36,9 @@
 		{#each data.result as item}
 			<TableBodyRow>
 				<TableBodyCell class="text-end">
-					<Toggle bind:checked={item.isSubscribed} on:change={async () => handleSubscriptionChanged(item)}
-						>{item.name}</Toggle
+					<Toggle
+						bind:checked={item.isSubscribed}
+						on:change={async () => handleSubscriptionChanged(item)}>{item.name}</Toggle
 					>
 				</TableBodyCell>
 				<TableBodyCell class="text-end">
