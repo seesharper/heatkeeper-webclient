@@ -16,6 +16,7 @@
 			<NavLi href={baseUrl}>Home</NavLi>
 			<NavLi href="/about">About</NavLi>
 			<NavLi href="/locations">Configuration</NavLi>
+			<NavLi href="/queryconsole">Query Console</NavLi>
 			<NavLi href="/users">Users</NavLi>
 			<NavLi href="/sensors/deadsensors">Dead Sensors</NavLi>
 			<NavLi href="/vat-rates">Vat Rates</NavLi>

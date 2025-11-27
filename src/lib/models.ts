@@ -322,3 +322,28 @@ export type ActionDetails = {
 export type NotificationSubscription = {
     notificationId: number
 }
+
+export type Column = {
+    name: string
+}
+
+export type Cell = {
+    value: any
+}
+
+export type Row = {
+    cells: Cell[]
+}
+
+export type Table = {
+    columns: Column[],
+    rows: Row[]
+}
+
+export type DatabaseQuery = {
+    sql: string
+}
+
+
+
+
