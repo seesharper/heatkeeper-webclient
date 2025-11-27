@@ -1,7 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { deleteLocation, updateLocation } from '$lib/api';
-	import { Grid, TextInput, SaveButton, SelectInput, DeleteModal, GeoLocationInput } from '$lib/components';
+	import {
+		Grid,
+		TextInput,
+		SaveButton,
+		SelectInput,
+		DeleteModal,
+		GeoLocationInput
+	} from '$lib/components';
 	export let data: PageData;
 
 	async function handleDeleteLocation() {
@@ -16,7 +23,6 @@
 </script>
 
 <Grid>
-	
 	<TextInput id="name" label="Name" bind:value={data.location.name} required />
 
 	<TextInput id="description" label="Description" bind:value={data.location.description} />
@@ -35,8 +41,8 @@
 		bind:value={data.location.defaultInsideZoneId}
 	></SelectInput>
 
-	<GeoLocationInput 
-		bind:longitude={data.location.longitude} 
+	<GeoLocationInput
+		bind:longitude={data.location.longitude}
 		bind:latitude={data.location.latitude}
 	/>
 
