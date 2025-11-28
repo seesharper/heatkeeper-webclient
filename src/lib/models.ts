@@ -347,3 +347,18 @@ export type DatabaseQuery = {
 
 
 
+// Smart meter live readings streamed via Server-Sent Events
+export type SmartMeterReadings = {
+    activePowerImport: number;
+    currentPhase1: number;
+    currentPhase2: number;
+    currentPhase3: number;
+    voltageBetweenPhase1AndPhase2: number;
+    voltageBetweenPhase1AndPhase3: number;
+    voltageBetweenPhase2AndPhase3: number;
+    cumulativePowerImport: number;
+}
+
+
+
+
