@@ -1,4 +1,4 @@
-import type { ActionDetails, ActionInfo, DatabaseQuery, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, Table, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { ActionDetails, ActionInfo, DatabaseQuery, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewUser, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, Table, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -39,7 +39,7 @@ export async function createHeater(newProgram: NewHeater, zoneId: string): Promi
     await Post(fetch, `${baseUrl}api/zones/${zoneId}/heaters`, newProgram);
 }
 
-export async function createUser(newUser: UserDetails): Promise<void> {
+export async function createUser(newUser: NewUser): Promise<void> {
     await Post(fetch, `${baseUrl}api/users`, newUser);
 
 }
@@ -288,11 +288,11 @@ export async function executeQuery(query: DatabaseQuery): Promise<Table> {
         credentials: 'include'
     };
     const response = await fetch(request, config);
-    
+
     if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || `HTTP error! status: ${response.status}`);
     }
-    
+
     return await response.json() as Table;
 }
