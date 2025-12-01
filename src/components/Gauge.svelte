@@ -64,7 +64,8 @@
 		text-anchor="middle"
 		dominant-baseline="central"
 		font-size={size * 0.18}
-		fill="#111827"
+		font-weight="500"
+		fill="#6b7280"
 	>
 		{Math.round(clamped)}{units ? ` ${units}` : ''}
 	</text>
