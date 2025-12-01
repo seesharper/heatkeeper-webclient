@@ -121,46 +121,75 @@
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Cumulative Power Import</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.cumulativePowerImport, 3)}
+			{format(
+				$smart.data?.cumulativePowerImport !== undefined
+					? $smart.data.cumulativePowerImport / 1000
+					: undefined,
+				3
+			)}
 			<span class="text-base text-gray-500">kWh</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Current Phase 1</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.currentPhase1, 2)} <span class="text-base text-gray-500">A</span>
+			{format(
+				$smart.data?.currentPhase1 !== undefined ? $smart.data.currentPhase1 / 1000 : undefined,
+				2
+			)} <span class="text-base text-gray-500">A</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Current Phase 2</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.currentPhase2, 2)} <span class="text-base text-gray-500">A</span>
+			{format(
+				$smart.data?.currentPhase2 !== undefined ? $smart.data.currentPhase2 / 1000 : undefined,
+				2
+			)} <span class="text-base text-gray-500">A</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Current Phase 3</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.currentPhase3, 2)} <span class="text-base text-gray-500">A</span>
+			{format(
+				$smart.data?.currentPhase3 !== undefined ? $smart.data.currentPhase3 / 1000 : undefined,
+				2
+			)} <span class="text-base text-gray-500">A</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Voltage L1–L2</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.voltageBetweenPhase1AndPhase2, 0)}
+			{format(
+				$smart.data?.voltageBetweenPhase1AndPhase2 !== undefined
+					? $smart.data.voltageBetweenPhase1AndPhase2 / 10
+					: undefined,
+				0
+			)}
 			<span class="text-base text-gray-500">V</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Voltage L1–L3</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.voltageBetweenPhase1AndPhase3, 0)}
+			{format(
+				$smart.data?.voltageBetweenPhase1AndPhase3 !== undefined
+					? $smart.data.voltageBetweenPhase1AndPhase3 / 10
+					: undefined,
+				0
+			)}
 			<span class="text-base text-gray-500">V</span>
 		</p>
 	</Card>
 	<Card class="h-full">
 		<h5 class="text-sm text-gray-500">Voltage L2–L3</h5>
 		<p class="text-2xl font-medium">
-			{format($smart.data?.voltageBetweenPhase2AndPhase3, 0)}
+			{format(
+				$smart.data?.voltageBetweenPhase2AndPhase3 !== undefined
+					? $smart.data.voltageBetweenPhase2AndPhase3 / 10
+					: undefined,
+				0
+			)}
 			<span class="text-base text-gray-500">V</span>
 		</p>
 	</Card>
