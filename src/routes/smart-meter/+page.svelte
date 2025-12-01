@@ -125,7 +125,7 @@
 				$smart.data?.cumulativePowerImport !== undefined
 					? $smart.data.cumulativePowerImport / 1000
 					: undefined,
-				3
+				0
 			)}
 			<span class="text-base text-gray-500">kWh</span>
 		</p>
