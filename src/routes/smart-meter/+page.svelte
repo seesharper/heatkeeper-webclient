@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { baseUrl } from '$lib/environment';
 	import type { SmartMeterReadings } from '$lib/models';
-	import { Card, Badge } from 'flowbite-svelte';
+	import { Card, Badge, Chart } from 'flowbite-svelte';
 	import { createSseStore } from '$lib/stores/sse';
-	import Sparkline from '../../components/Sparkline.svelte';
 	import Gauge from '../../components/Gauge.svelte';
+	import type { ApexOptions } from 'apexcharts';
 
 	// Reusable SSE store for smart meter
 	const smart = createSseStore<SmartMeterReadings>(`${baseUrl}api/smart-meter`, {
@@ -12,7 +12,10 @@
 	});
 
 	// Keep a short history of active power for sparkline
-	let powerHistory: number[] = [];
+	let powerHistory: number[] = Array.from(
+		{ length: 60 },
+		(_, i) => 2000 + Math.sin(i / 10) * 800 + Math.random() * 400
+	);
 	const maxPoints = 120; // ~last 120 updates
 	$: maxGauge = Math.max(5000, Math.max(0, ...powerHistory));
 
@@ -37,6 +40,44 @@
 				return 'dark';
 		}
 	};
+
+	$: chartOptions = {
+		chart: {
+			type: 'area',
+			height: 60,
+			sparkline: { enabled: true },
+			animations: { enabled: false }
+		},
+		stroke: {
+			curve: 'smooth',
+			width: 2
+		},
+		fill: {
+			type: 'gradient',
+			gradient: {
+				shadeIntensity: 1,
+				opacityFrom: 0.4,
+				opacityTo: 0.1
+			}
+		},
+		colors: ['#1e40af'],
+		series: [
+			{
+				name: 'Power',
+				data: powerHistory
+			}
+		],
+		tooltip: {
+			fixed: { enabled: false },
+			x: { show: false },
+			y: {
+				title: {
+					formatter: () => 'Power: '
+				}
+			},
+			marker: { show: false }
+		}
+	} as ApexOptions;
 </script>
 
 <svelte:head>
@@ -54,10 +95,10 @@
 	{/if}
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="grid gap-6 grid-cols-1 md:grid-cols-2">
 	<Card class="h-full">
-		<h5 class="text-sm text-gray-500 mb-2">Active Power Import</h5>
-		<div class="flex items-center gap-4">
+		<h5 class="text-sm text-gray-500 mb-4">Active Power Import</h5>
+		<div class="flex flex-col items-center">
 			<Gauge
 				value={$smart.data?.activePowerImport ?? 0}
 				min={0}
@@ -66,20 +107,14 @@
 				thickness={12}
 				units="W"
 			/>
-			<div class="flex-1 min-w-0">
-				<p class="text-2xl font-medium">
-					{format($smart.data?.activePowerImport, 1)} <span class="text-base text-gray-500">W</span>
-				</p>
-				<div class="mt-2">
-					<Sparkline
-						values={powerHistory}
-						width={280}
-						height={60}
-						stroke="#1e40af"
-						strokeWidth={2}
-						fill="rgba(30,64,175,0.12)"
-					/>
-				</div>
+			<div class="w-full max-w-md">
+				{#if powerHistory.length > 0}
+					<Chart options={chartOptions} />
+				{:else}
+					<div class="h-[60px] flex items-center justify-center text-xs text-gray-400">
+						Waiting for data...
+					</div>
+				{/if}
 			</div>
 		</div>
 	</Card>

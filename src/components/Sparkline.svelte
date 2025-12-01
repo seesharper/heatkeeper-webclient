@@ -27,16 +27,35 @@
 	$: points = toPoints();
 </script>
 
-<svg {width} {height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="sparkline">
-	{#if fill && values.length > 1}
-		<polyline points={`${points} ${width},${height} 0,${height}`} {fill} stroke="none" />
-	{/if}
-	<polyline
-		{points}
-		fill="none"
-		{stroke}
-		stroke-width={strokeWidth}
-		stroke-linecap="round"
-		stroke-linejoin="round"
-	/>
-</svg>
+{#if values.length > 0}
+	<svg
+		{width}
+		{height}
+		viewBox={`0 0 ${width} ${height}`}
+		role="img"
+		aria-label="sparkline"
+		class="block border border-gray-200"
+		style="background: #f9fafb;"
+	>
+		{#if fill && values.length > 1}
+			<polygon points={`0,${height} ${points} ${width},${height}`} {fill} stroke="none" />
+		{/if}
+		{#if points}
+			<polyline
+				{points}
+				fill="none"
+				{stroke}
+				stroke-width={strokeWidth}
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		{/if}
+	</svg>
+{:else}
+	<div
+		style="width: {width}px; height: {height}px;"
+		class="flex items-center justify-center text-xs text-gray-400"
+	>
+		Waiting for data...
+	</div>
+{/if}
