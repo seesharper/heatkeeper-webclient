@@ -13,3 +13,4 @@ export { default as NumericInput } from '../components/NumericInput.svelte';
 export { default as EnergyPriceChart } from '../components/EnergyPriceChart.svelte';
 export { default as CronSelector } from '../components/CronSelector.svelte';
 export { default as GeoLocationInput } from '../components/GeoLocationInput.svelte';
+export { default as SmartInput } from '../components/SmartInput.svelte';

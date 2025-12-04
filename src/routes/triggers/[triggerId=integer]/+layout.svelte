@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SaveButton, DeleteButton, SelectInput, CreateButton } from '$lib/components';
+	import { SaveButton, DeleteButton, SelectInput, CreateButton, SmartInput } from '$lib/components';
 	import {
 		updateTrigger,
 		deleteTrigger,
@@ -13,7 +13,8 @@
 		Condition,
 		EventDetails,
 		ActionDetails,
-		ActionBinding
+		ActionBinding,
+		EventPropertyInfo
 	} from '$lib/models';
 	import { TextInput } from '$lib/components';
 	import {
@@ -43,6 +44,7 @@
 	let actionDetailsMap: Map<number, ActionDetails> = new Map();
 	let testSuccessToasts: boolean[] = [];
 	let testErrorToasts: boolean[] = [];
+	let eventDetailsVersion = 0; // Used to force reactivity when eventDetails changes
 
 	// Initialize conditions array if it doesn't exist
 	if (!trigger.conditions) {
@@ -86,6 +88,7 @@
 				value: prop.name,
 				name: prop.name
 			}));
+			eventDetailsVersion++; // Increment to trigger reactivity
 		}
 	}
 
@@ -207,6 +210,51 @@
 	async function deleteTriggerHandler() {
 		await deleteTrigger(data.triggerId);
 	}
+
+	// Helper function to build dependency map for conditions
+	function buildDependencyMap(
+		conditions: Condition[],
+		currentIndex: number
+	): Record<string, string> {
+		const deps: Record<string, string> = {};
+
+		// Include values from previous conditions
+		for (let i = 0; i < currentIndex; i++) {
+			const cond = conditions[i];
+			if (cond.propertyName && cond.value) {
+				deps[cond.propertyName] = cond.value;
+			}
+		}
+
+		return deps;
+	}
+
+	// Helper function to build dependency map for action parameters
+	function buildActionDependencyMap(
+		parameterMap: Record<string, string>,
+		currentParamName: string
+	): Record<string, string> {
+		const deps: Record<string, string> = {};
+
+		// Include all other parameters that have values
+		for (const [key, value] of Object.entries(parameterMap)) {
+			if (key !== currentParamName && value) {
+				deps[key] = value;
+			}
+		}
+
+		return deps;
+	}
+
+	// Helper to get property details by name
+	function getPropertyByName(propertyName: string): EventPropertyInfo | undefined {
+		return eventDetails?.properties.find((p) => p.name === propertyName);
+	}
+
+	// Helper to get lookup URL for a property
+	function getLookupUrl(propertyName: string): string | undefined {
+		return getPropertyByName(propertyName)?.lookupUrl;
+	}
 </script>
 
 <Heading tag="h3" class="text-center">Edit Trigger</Heading>
@@ -246,7 +294,13 @@
 									<SelectInput items={operatorOptions} bind:value={condition.operator} />
 								</TableBodyCell>
 								<TableBodyCell>
-									<TextInput bind:value={condition.value} />
+									{#key `${eventDetailsVersion}-${condition.propertyName}`}
+										<SmartInput
+											bind:value={condition.value}
+											lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
+											dependencyValues={buildDependencyMap(trigger.conditions, index)}
+										/>
+									{/key}
 								</TableBodyCell>
 								<TableBodyCell>
 									<Button size="xs" color="red" on:click={() => deleteCondition(index)}
@@ -277,7 +331,14 @@
 								items={operatorOptions}
 								bind:value={condition.operator}
 							/>
-							<TextInput label="Value" bind:value={condition.value} />
+							{#key `${eventDetailsVersion}-${condition.propertyName}`}
+								<SmartInput
+									label="Value"
+									bind:value={condition.value}
+									lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
+									dependencyValues={buildDependencyMap(trigger.conditions, index)}
+								/>
+							{/key}
 							<Button size="sm" color="red" class="w-full" on:click={() => deleteCondition(index)}>
 								Delete Condition
 							</Button>
@@ -363,9 +424,14 @@
 															{/if}
 														</TableBodyCell>
 														<TableBodyCell>
-															<TextInput
+															<SmartInput
 																bind:value={actionBinding.parameterMap[param.name]}
 																placeholder={param.required ? 'Required' : 'Optional'}
+																lookupUrl={param.lookupUrl}
+																dependencyValues={buildActionDependencyMap(
+																	actionBinding.parameterMap,
+																	param.name
+																)}
 															/>
 														</TableBodyCell>
 													</TableBodyRow>
@@ -400,9 +466,14 @@
 														{param.type}
 													</span>
 												</div>
-												<TextInput
+												<SmartInput
 													bind:value={actionBinding.parameterMap[param.name]}
 													placeholder={param.required ? 'Required' : 'Optional'}
+													lookupUrl={param.lookupUrl}
+													dependencyValues={buildActionDependencyMap(
+														actionBinding.parameterMap,
+														param.name
+													)}
 												/>
 											</div>
 										{/each}
