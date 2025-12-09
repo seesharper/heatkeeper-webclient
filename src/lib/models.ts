@@ -196,7 +196,8 @@ export type EventPropertyInfo = {
     name: string,
     type: string,
     isNullable: boolean,
-    description?: string
+    description?: string,
+    lookupUrl?: string
 }
 
 export type EventDetails = {
@@ -309,6 +310,7 @@ export type ActionParameter = {
     type: string,
     required: boolean,
     description?: string
+    lookupUrl?: string
 }
 
 export type ActionDetails = {
@@ -317,6 +319,11 @@ export type ActionDetails = {
     displayName: string,
     description: string,
     parameterSchema: ActionParameter[]
+}
+
+export type LookupItem = {
+    id: number,
+    name: string
 }
 
 export type NotificationSubscription = {
