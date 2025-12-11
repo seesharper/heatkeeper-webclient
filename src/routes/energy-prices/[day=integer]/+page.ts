@@ -12,7 +12,12 @@ export const load = (async (loadEvent) => {
     const energyPriceAreas = await Get<EnergyPriceAreaInfo[]>(svelteFetch, `${baseUrl}api/energy-price-areas/`);
 
 
-    let chartTimeSeries: { title: string; chartData: { x: Date, y: number }[] }[] = [];
+    let chartTimeSeries: {
+        title: string;
+        priceData: { x: Date, y: number }[];
+        priceAfterSubsidyData: { x: Date, y: number }[];
+        rawPrices: EnergyPrice[];
+    }[] = [];
 
     var day = new Date().toISOString().split('T')[0];
     console.log(params.day);
@@ -26,8 +31,12 @@ export const load = (async (loadEvent) => {
     for (const priceArea of energyPriceAreas) {
         const energyPrices = await Get<EnergyPrice[]>(svelteFetch, `${baseUrl}api/energy-prices/?date=${day}&EnergyPriceAreaId=${priceArea.id}`);
         if (energyPrices.length > 0) {
-
-            chartTimeSeries.push({ title: priceArea.name, chartData: energyPrices.map(p => ({ x: new Date(p.timeStart), y: p.priceAfterSubsidy })) });
+            chartTimeSeries.push({
+                title: priceArea.name,
+                priceData: energyPrices.map(p => ({ x: new Date(p.timeStart), y: p.price })),
+                priceAfterSubsidyData: energyPrices.map(p => ({ x: new Date(p.timeStart), y: p.priceAfterSubsidy })),
+                rawPrices: energyPrices
+            });
         }
     }
 
