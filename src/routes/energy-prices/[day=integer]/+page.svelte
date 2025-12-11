@@ -9,7 +9,9 @@
 	<div class="mt-5">
 		{#each data.chartTimeSeries as chartTimeSerie}
 			<EnergyPriceChart
-				bind:chartTimeSeries={chartTimeSerie.chartData}
+				bind:priceData={chartTimeSerie.priceData}
+				bind:priceAfterSubsidyData={chartTimeSerie.priceAfterSubsidyData}
+				bind:rawPrices={chartTimeSerie.rawPrices}
 				bind:title={chartTimeSerie.title}
 			></EnergyPriceChart>
 			<div class="mt-5"></div>
