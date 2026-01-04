@@ -37,14 +37,13 @@
 
 	export let data: LayoutData;
 	let trigger: TriggerDefinition = { ...data.trigger };
-	let previousEventType = trigger.appliesToEventType;
+	let previousEventId = trigger.eventId;
 	let eventDetails: EventDetails | null = null;
 	let propertyOptions: { value: string; name: string }[] = [];
 	let mounted = false;
 	let actionDetailsMap: Map<number, ActionDetails> = new Map();
 	let testSuccessToasts: boolean[] = [];
 	let testErrorToasts: boolean[] = [];
-	let eventDetailsVersion = 0; // Used to force reactivity when eventDetails changes
 
 	// Initialize conditions array if it doesn't exist
 	if (!trigger.conditions) {
@@ -62,34 +61,30 @@
 		loadActionDetails();
 	});
 
-	// Fetch event details when event type changes
+	// Fetch event details when event ID changes
 	$: if (
-		trigger.appliesToEventType !== previousEventType &&
-		previousEventType !== undefined &&
+		trigger.eventId !== previousEventId &&
+		previousEventId !== undefined &&
 		mounted
 	) {
 		trigger.conditions = [];
-		previousEventType = trigger.appliesToEventType;
+		previousEventId = trigger.eventId;
 		loadEventDetails();
 	}
 
 	async function loadEventDetails() {
-		if (!browser || !trigger.appliesToEventType) {
+		if (!browser || !trigger.eventId) {
 			eventDetails = null;
 			propertyOptions = [];
 			return;
 		}
 
-		// Find the event info that matches the selected event type
-		const eventInfo = data.eventInfos.find((e) => e.name === trigger.appliesToEventType);
-		if (eventInfo) {
-			eventDetails = await getEventDetails(fetch, eventInfo.id);
-			propertyOptions = eventDetails.properties.map((prop) => ({
-				value: prop.name,
-				name: prop.name
-			}));
-			eventDetailsVersion++; // Increment to trigger reactivity
-		}
+		// Load event details using the event ID
+		eventDetails = await getEventDetails(fetch, trigger.eventId);
+		propertyOptions = eventDetails.properties.map((prop) => ({
+			value: prop.name,
+			name: prop.name
+		}));
 	}
 
 	async function loadActionDetails() {
@@ -263,10 +258,10 @@
 	<TextInput label="Name" bind:value={trigger.name} />
 
 	<SelectInput
-		label="Applies to Event Type"
-		placeholder="Choose the event type for this trigger"
-		items={data.eventTypes}
-		bind:value={trigger.appliesToEventType}
+		label="Applies to Event"
+		placeholder="Choose the event for this trigger"
+		items={data.eventOptions}
+		bind:value={trigger.eventId}
 	/>
 
 	{#if trigger.conditions && trigger.conditions.length > 0}
@@ -290,18 +285,16 @@
 										placeholder="Select property"
 									/>
 								</TableBodyCell>
-								<TableBodyCell>
-									<SelectInput items={operatorOptions} bind:value={condition.operator} />
-								</TableBodyCell>
-								<TableBodyCell>
-									{#key `${eventDetailsVersion}-${condition.propertyName}`}
-										<SmartInput
-											bind:value={condition.value}
-											lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
-											dependencyValues={buildDependencyMap(trigger.conditions, index)}
-										/>
-									{/key}
-								</TableBodyCell>
+							<TableBodyCell>
+								<SelectInput items={operatorOptions} bind:value={condition.operator} />
+							</TableBodyCell>
+							<TableBodyCell>
+								<SmartInput
+									bind:value={condition.value}
+									lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
+									dependencyValues={buildDependencyMap(trigger.conditions, index)}
+								/>
+							</TableBodyCell>
 								<TableBodyCell>
 									<Button size="xs" color="red" on:click={() => deleteCondition(index)}
 										>Delete</Button
@@ -331,14 +324,12 @@
 								items={operatorOptions}
 								bind:value={condition.operator}
 							/>
-							{#key `${eventDetailsVersion}-${condition.propertyName}`}
-								<SmartInput
-									label="Value"
-									bind:value={condition.value}
-									lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
-									dependencyValues={buildDependencyMap(trigger.conditions, index)}
-								/>
-							{/key}
+							<SmartInput
+								label="Value"
+								bind:value={condition.value}
+								lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
+								dependencyValues={buildDependencyMap(trigger.conditions, index)}
+							/>
 							<Button size="sm" color="red" class="w-full" on:click={() => deleteCondition(index)}>
 								Delete Condition
 							</Button>

@@ -263,7 +263,7 @@ export type ActionBinding = {
 
 export type TriggerDefinition = {
     name: string,
-    appliesToEventType: string,
+    eventId: number,
     conditions: Condition[],
     actions: ActionBinding[],
 }
