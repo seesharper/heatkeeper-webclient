@@ -9,8 +9,8 @@ export const load = (async (loadEvent) => {
     const trigger = await Get<TriggerDefinition>(svelteFetch, `${baseUrl}api/triggers/${params.triggerId}`);
     const eventInfos = await Get<EventInfo[]>(svelteFetch, `${baseUrl}api/events`);
     const actionInfos = await Get<ActionInfo[]>(svelteFetch, `${baseUrl}api/actions`);
-    const eventTypes = eventInfos.map((event) => ({ value: event.name, name: event.name }));
+    const eventOptions = eventInfos.map((event) => ({ value: event.id, name: event.name }));
     const actionOptions = actionInfos.map((action) => ({ value: action.id, name: action.displayName }));
     console.log("trigger loaded:", trigger);
-    return { trigger: trigger, triggerId: parseInt(params.triggerId), eventTypes: eventTypes, eventInfos: eventInfos, actionInfos: actionInfos, actionOptions: actionOptions }
+    return { trigger: trigger, triggerId: parseInt(params.triggerId), eventOptions: eventOptions, eventInfos: eventInfos, actionInfos: actionInfos, actionOptions: actionOptions }
 }) satisfies LayoutLoad;
