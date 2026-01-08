@@ -62,11 +62,7 @@
 	});
 
 	// Fetch event details when event ID changes
-	$: if (
-		trigger.eventId !== previousEventId &&
-		previousEventId !== undefined &&
-		mounted
-	) {
+	$: if (trigger.eventId !== previousEventId && previousEventId !== undefined && mounted) {
 		trigger.conditions = [];
 		previousEventId = trigger.eventId;
 		loadEventDetails();
@@ -285,16 +281,16 @@
 										placeholder="Select property"
 									/>
 								</TableBodyCell>
-							<TableBodyCell>
-								<SelectInput items={operatorOptions} bind:value={condition.operator} />
-							</TableBodyCell>
-							<TableBodyCell>
-								<SmartInput
-									bind:value={condition.value}
-									lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
-									dependencyValues={buildDependencyMap(trigger.conditions, index)}
-								/>
-							</TableBodyCell>
+								<TableBodyCell>
+									<SelectInput items={operatorOptions} bind:value={condition.operator} />
+								</TableBodyCell>
+								<TableBodyCell>
+									<SmartInput
+										bind:value={condition.value}
+										lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
+										dependencyValues={buildDependencyMap(trigger.conditions, index)}
+									/>
+								</TableBodyCell>
 								<TableBodyCell>
 									<Button size="xs" color="red" on:click={() => deleteCondition(index)}
 										>Delete</Button
