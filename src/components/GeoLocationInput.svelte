@@ -34,23 +34,6 @@
 
 <div class="space-y-4">
 	<Label class="mb-2">{label}</Label>
-
-	<div>
-		<Label for="longitude" class="mb-2">Longitude</Label>
-		<Input
-			id="longitude"
-			type="number"
-			step="any"
-			bind:value={longitude}
-			on:input={validateLongitude}
-			color={longitudeError ? 'red' : 'base'}
-			placeholder="Enter longitude (-180 to 180)"
-		/>
-		{#if longitudeError}
-			<Helper class="mt-2" color="red">Longitude must be between -180 and 180</Helper>
-		{/if}
-	</div>
-
 	<div>
 		<Label for="latitude" class="mb-2">Latitude</Label>
 		<Input
@@ -64,6 +47,21 @@
 		/>
 		{#if latitudeError}
 			<Helper class="mt-2" color="red">Latitude must be between -90 and 90</Helper>
+		{/if}
+	</div>
+	<div>
+		<Label for="longitude" class="mb-2">Longitude</Label>
+		<Input
+			id="longitude"
+			type="number"
+			step="any"
+			bind:value={longitude}
+			on:input={validateLongitude}
+			color={longitudeError ? 'red' : 'base'}
+			placeholder="Enter longitude (-180 to 180)"
+		/>
+		{#if longitudeError}
+			<Helper class="mt-2" color="red">Longitude must be between -180 and 180</Helper>
 		{/if}
 	</div>
 </div>

@@ -1,3 +1,5 @@
+
+
 export interface User {
     token: string;
     name: string;
@@ -367,5 +369,28 @@ export type SmartMeterReadings = {
 }
 
 
+/*
+public record ForeCast(DateOnly utcDate, DateTime utcSunRise, DateTime utcSunSet, TimeSeriesItem[] TimeSeries);
 
+public record TimeSeriesItem(DateOnly Date, int Hour, double? Temperature, double? WindSpeed, double? WindFromDirection, double PrecipitationAmount, string SymbolCode);
+*/
 
+export type ForeCast = {
+    utcDate: Date,
+    utcSunRise: Date,
+    utcSunSet: Date,
+    timeSeries: TimeSeriesItem[]
+}
+
+export type TimeSeriesItem = {
+    date: Date,
+    hour: number,
+    temperature: number | null,
+    windSpeed: number | null,
+    windSpeedOfGust: number | null,
+    windFromDirection: number | null,
+    precipitationAmount: number,
+    precipitationAmountMin: number | null,
+    precipitationAmountMax: number | null,
+    symbolCode: string
+}
