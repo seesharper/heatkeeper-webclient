@@ -387,7 +387,10 @@ export type TimeSeriesItem = {
     hour: number,
     temperature: number | null,
     windSpeed: number | null,
+    windSpeedOfGust: number | null,
     windFromDirection: number | null,
     precipitationAmount: number,
+    precipitationAmountMin: number | null,
+    precipitationAmountMax: number | null,
     symbolCode: string
 }

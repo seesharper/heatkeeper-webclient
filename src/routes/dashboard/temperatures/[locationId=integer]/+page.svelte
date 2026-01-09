@@ -111,15 +111,18 @@
 
 							<!-- Precipitation -->
 							<div class="text-sm w-16 text-center text-gray-600 dark:text-gray-400">
-								{hour.precipitationAmount > 0 ? `${hour.precipitationAmount.toFixed(1)}` : '0'}
+								{#if hour.precipitationAmountMin !== null && hour.precipitationAmountMin > 0 && hour.precipitationAmountMax !== null && hour.precipitationAmountMax > 0}
+									{hour.precipitationAmountMin.toFixed(1)}-{hour.precipitationAmountMax.toFixed(1)}
+								{/if}
 							</div>
-
 							<!-- Wind Speed and Direction -->
 							<div class="flex items-center gap-2 justify-end min-w-[80px]">
 								<span class="text-sm font-medium">
 									{hour.windSpeed !== null ? Math.round(hour.windSpeed) : '0'}
 									<span class="text-xs text-gray-500"
-										>({hour.windSpeed !== null ? Math.round(hour.windSpeed * 3.6) : '0'})</span
+										>({hour.windSpeedOfGust !== null
+											? Math.round(hour.windSpeedOfGust)
+											: '0'})</span
 									>
 								</span>
 								<WindDirection direction={hour.windFromDirection} size={20} />
