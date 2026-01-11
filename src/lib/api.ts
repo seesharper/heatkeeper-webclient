@@ -1,4 +1,4 @@
-import type { ActionDetails, ActionInfo, DatabaseQuery, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewUser, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, ProgramDetails, ScheduleDetails, SensorDetails, SetPointDetails, Table, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
+import type { ActionDetails, ActionInfo, DatabaseQuery, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewUser, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, PostRunJobCommand, ProgramDetails, ScheduleDetails, ScheduledJob, SensorDetails, SetPointDetails, Table, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
@@ -295,4 +295,8 @@ export async function executeQuery(query: DatabaseQuery): Promise<Table> {
     }
 
     return await response.json() as Table;
+}
+
+export async function runJob(command: PostRunJobCommand): Promise<void> {
+    await Post(fetch, `${baseUrl}api/jobs`, command);
 }
