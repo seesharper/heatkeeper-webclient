@@ -394,3 +394,21 @@ export type TimeSeriesItem = {
     precipitationAmountMax: number | null,
     symbolCode: string
 }
+
+/*
+public record ScheduledJob(string Name, string State, DateTime? NextOccurrence);
+ */
+
+export type ScheduledJob = {
+    name: string,
+    state: string,
+    nextOccurrence: Date | null
+}
+
+/*
+public record PostRunJobCommand(string JobName);
+*/
+
+export type PostRunJobCommand = {
+    jobName: string
+}
