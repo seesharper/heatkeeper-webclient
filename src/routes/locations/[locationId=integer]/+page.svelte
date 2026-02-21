@@ -41,6 +41,13 @@
 		bind:value={data.location.defaultInsideZoneId}
 	></SelectInput>
 
+	<SelectInput
+		label="Energy Price Area"
+		placeholder="Choose the energy price area"
+		items={data.energyPriceAreas}
+		bind:value={data.location.energyPriceAreaId}
+	></SelectInput>
+
 	<GeoLocationInput
 		bind:longitude={data.location.longitude}
 		bind:latitude={data.location.latitude}

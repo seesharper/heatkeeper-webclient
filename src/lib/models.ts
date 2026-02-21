@@ -73,7 +73,8 @@ export type LocationDetails = {
     defaultInsideZoneId: number,
     activeProgramId: number,
     longitude: number,
-    latitude: number
+    latitude: number,
+    energyPriceAreaId: number
 }
 
 export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
