@@ -7,7 +7,9 @@
 		SaveButton,
 		SelectInput,
 		DeleteModal,
-		GeoLocationInput
+		GeoLocationInput,
+		NumericInput,
+		CheckboxInput
 	} from '$lib/components';
 	export let data: PageData;
 
@@ -51,6 +53,18 @@
 	<GeoLocationInput
 		bind:longitude={data.location.longitude}
 		bind:latitude={data.location.latitude}
+	/>
+
+	<CheckboxInput
+		id="useFixedEnergyPrice"
+		label="Use Fixed Energy Price"
+		bind:checked={data.location.useFixedEnergyPrice}
+	/>
+
+	<NumericInput
+		id="fixedEnergyPrice"
+		label="Fixed Energy Price"
+		bind:value={data.location.fixedEnergyPrice}
 	/>
 
 	<SaveButton on:click={async () => await handleUpdateLocation()} />

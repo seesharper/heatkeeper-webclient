@@ -74,7 +74,9 @@ export type LocationDetails = {
     activeProgramId: number,
     longitude: number,
     latitude: number,
-    energyPriceAreaId: number
+    energyPriceAreaId: number,
+    fixedEnergyPrice: number,
+    useFixedEnergyPrice: boolean
 }
 
 export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
