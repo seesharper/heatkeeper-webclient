@@ -1,6 +1,7 @@
 import type { ActionDetails, ActionInfo, DatabaseQuery, EnergyPriceAreaDetails, EventDetails, HeaterDetails, LocationDetails, LocationInfo, LoginRequest, NewEnergyPriceArea, NewHeater, NewLocation, NewNotification, NewProgram, NewSchedule, NewSetPoint, NewTrigger, NewUser, NewVatRate, NewZone, NotificationDetails, NotificationSubscription, PatchTrigger, PostRunJobCommand, ProgramDetails, ScheduleDetails, ScheduledJob, SensorDetails, SetPointDetails, Table, TriggerDefinition, TriggerInfo, UpdatedSetPoint, User, UserDetails, VatRateDetails, ZoneDetails } from "$lib/models";
 import { baseUrl } from "$lib/environment";
 import { goto } from "$app/navigation";
+import { redirect } from "@sveltejs/kit";
 import type { as } from "vitest/dist/reporters-qc5Smpt5.js";
 
 export async function login(loginRequest: LoginRequest): Promise<User> {
@@ -188,6 +189,9 @@ export async function Get<T>(svelteFetch: (input: RequestInfo, init?: RequestIni
         credentials: 'include'
     };
     const response = await svelteFetch(request, config);
+    if (response.status === 401) {
+        throw redirect(302, '/login');
+    }
     return await response.json() as T;
 }
 
@@ -201,7 +205,10 @@ export async function Post<T>(svelteFetch: (input: RequestInfo, init?: RequestIn
     const config: RequestInit = {
         credentials: 'include'
     };
-    await svelteFetch(request, config);
+    const response = await svelteFetch(request, config);
+    if (response.status === 401) {
+        goto('/login');
+    }
 }
 
 export async function Patch<T>(url: string, body: T): Promise<void> {
@@ -214,7 +221,10 @@ export async function Patch<T>(url: string, body: T): Promise<void> {
     const config: RequestInit = {
         credentials: 'include'
     };
-    await fetch(request, config);
+    const response = await fetch(request, config);
+    if (response.status === 401) {
+        goto('/login');
+    }
 }
 
 export async function Delete(url: string): Promise<void> {
@@ -226,7 +236,10 @@ export async function Delete(url: string): Promise<void> {
     const config: RequestInit = {
         credentials: 'include'
     };
-    await fetch(request, config);
+    const response = await fetch(request, config);
+    if (response.status === 401) {
+        goto('/login');
+    }
 }
 
 export async function createTrigger(newTrigger: NewTrigger): Promise<void> {
