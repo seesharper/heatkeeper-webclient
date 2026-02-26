@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { deleteLocation, updateLocation } from '$lib/api';
+	import { EnergyCalculationStrategy } from '$lib/models';
 	import {
 		Grid,
 		TextInput,
@@ -66,6 +67,22 @@
 		label="Fixed Energy Price"
 		bind:value={data.location.fixedEnergyPrice}
 	/>
+
+	<SelectInput
+		label="Energy Calculation Strategy"
+		items={[{ value: 1, name: 'Smart Meter' }, { value: 2, name: 'Sensors' }]}
+		bind:value={data.location.energyCalculationStrategy}
+	/>
+
+	{#if data.location.energyCalculationStrategy === EnergyCalculationStrategy.SmartMeter}
+		<SelectInput
+			label="Smart Meter Sensor"
+			placeholder="Choose the smart meter sensor"
+			items={data.sensors}
+			bind:value={data.location.smartMeterSensorId}
+			required
+		/>
+	{/if}
 
 	<SaveButton on:click={async () => await handleUpdateLocation()} />
 
