@@ -99,8 +99,18 @@
 			position: 'top'
 		},
 		dataLabels: { enabled: false },
+		fill: {
+			type: 'gradient',
+			gradient: {
+				shade: 'light',
+				type: 'vertical',
+				shadeIntensity: 0.4,
+				opacityFrom: 1,
+				opacityTo: 0.6
+			}
+		},
 		plotOptions: {
-			bar: { columnWidth: '80%' }
+			bar: { columnWidth: '80%', borderRadius: 3 }
 		}
 	};
 </script>
