@@ -8,10 +8,31 @@
 	export let timeSeries: EnergyCostEntry[];
 	export let resolution: Resolution;
 
+	function aggregatePairs(entries: EnergyCostEntry[]): EnergyCostEntry[] {
+		const result: EnergyCostEntry[] = [];
+		for (let i = 0; i < entries.length; i += 2) {
+			const a = entries[i];
+			const b = entries[i + 1];
+			result.push({
+				timestamp: a.timestamp,
+				powerImport: a.powerImport + (b?.powerImport ?? 0),
+				costInLocalCurrency: a.costInLocalCurrency + (b?.costInLocalCurrency ?? 0),
+				costInLocalCurrencyAfterSubsidy:
+					a.costInLocalCurrencyAfterSubsidy + (b?.costInLocalCurrencyAfterSubsidy ?? 0),
+				costInLocalCurrencyWithFixedPrice:
+					a.costInLocalCurrencyWithFixedPrice + (b?.costInLocalCurrencyWithFixedPrice ?? 0)
+			});
+		}
+		return result;
+	}
+
+	const isHourly = resolution === Resolution.Hourly;
+	const displaySeries = isHourly ? aggregatePairs(timeSeries) : timeSeries;
+
 	function formatTimestamp(value: string): string {
 		const date = new Date(value);
-		if (resolution === Resolution.Hourly) {
-			return date.getHours().toString().padStart(2, '0') + ':00';
+		if (isHourly) {
+			return date.getHours().toString();
 		} else if (resolution === Resolution.Daily) {
 			return date.toLocaleDateString('en-GB', { weekday: 'short' });
 		} else {
@@ -19,25 +40,25 @@
 		}
 	}
 
-	const categories = timeSeries.map((e) => formatTimestamp(e.timestamp));
+	const categories = displaySeries.map((e) => formatTimestamp(e.timestamp));
 
-	const n = timeSeries.length || 1;
+	const n = displaySeries.length || 1;
 
 	const stats = [
 		{
 			label: 'Cost',
-			total: timeSeries.reduce((s, e) => s + e.costInLocalCurrency, 0),
-			avg: timeSeries.reduce((s, e) => s + e.costInLocalCurrency, 0) / n
+			total: displaySeries.reduce((s, e) => s + e.costInLocalCurrency, 0),
+			avg: displaySeries.reduce((s, e) => s + e.costInLocalCurrency, 0) / n
 		},
 		{
 			label: 'Cost After Subsidy',
-			total: timeSeries.reduce((s, e) => s + e.costInLocalCurrencyAfterSubsidy, 0),
-			avg: timeSeries.reduce((s, e) => s + e.costInLocalCurrencyAfterSubsidy, 0) / n
+			total: displaySeries.reduce((s, e) => s + e.costInLocalCurrencyAfterSubsidy, 0),
+			avg: displaySeries.reduce((s, e) => s + e.costInLocalCurrencyAfterSubsidy, 0) / n
 		},
 		{
 			label: 'Cost With Fixed Price',
-			total: timeSeries.reduce((s, e) => s + e.costInLocalCurrencyWithFixedPrice, 0),
-			avg: timeSeries.reduce((s, e) => s + e.costInLocalCurrencyWithFixedPrice, 0) / n
+			total: displaySeries.reduce((s, e) => s + e.costInLocalCurrencyWithFixedPrice, 0),
+			avg: displaySeries.reduce((s, e) => s + e.costInLocalCurrencyWithFixedPrice, 0) / n
 		}
 	];
 
@@ -51,25 +72,26 @@
 		series: [
 			{
 				name: 'Cost',
-				data: timeSeries.map((e) => e.costInLocalCurrency)
+				data: displaySeries.map((e) => e.costInLocalCurrency)
 			},
 			{
 				name: 'Cost After Subsidy',
-				data: timeSeries.map((e) => e.costInLocalCurrencyAfterSubsidy)
+				data: displaySeries.map((e) => e.costInLocalCurrencyAfterSubsidy)
 			},
 			{
 				name: 'Cost With Fixed Price',
-				data: timeSeries.map((e) => e.costInLocalCurrencyWithFixedPrice)
+				data: displaySeries.map((e) => e.costInLocalCurrencyWithFixedPrice)
 			}
 		],
 		colors: ['#3b82f6', '#10b981', '#f59e0b'],
 		xaxis: {
+			type: 'category',
 			categories,
 			labels: { hideOverlappingLabels: true }
 		},
 		yaxis: {
 			labels: {
-				formatter: (value) => value.toFixed(2)
+				formatter: (value) => value.toFixed(0)
 			}
 		},
 		legend: {
