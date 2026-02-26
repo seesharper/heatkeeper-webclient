@@ -415,3 +415,33 @@ public record PostRunJobCommand(string JobName);
 export type PostRunJobCommand = {
     jobName: string
 }
+
+export enum TimePeriod {
+    Today = 1,
+    Yesterday = 2,
+    LastWeek = 3,
+    ThisMonth = 4,
+    ThisWeek = 6,
+    LastMonth = 7,
+    ThisYear = 8,
+    LastYear = 9
+}
+
+export enum Resolution {
+    Hourly = 0,
+    Daily = 1,
+    Monthly = 2
+}
+
+export type EnergyCostEntry = {
+    timestamp: string,
+    powerImport: number,
+    costInLocalCurrency: number,
+    costInLocalCurrencyAfterSubsidy: number,
+    costInLocalCurrencyWithFixedPrice: number
+}
+
+export type EnergyCost = {
+    resolution: Resolution,
+    timeSeries: EnergyCostEntry[]
+}
