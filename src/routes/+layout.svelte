@@ -26,6 +26,7 @@
 			<NavLi href="/notifications">Notifications</NavLi>
 			<NavLi href="/triggers">Triggers</NavLi>
 			<NavLi href="/scheduled-jobs">Scheduled Jobs</NavLi>
+			<NavLi href="/energy-costs">Energy Costs</NavLi>
 			<NavLi href="/mqtt-client">MQTT Client</NavLi>
 			<NavLi href="/login">Login</NavLi>
 		</NavUl>
