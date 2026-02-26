@@ -65,6 +65,11 @@ export type ZoneReading = {
     updated: Date
 }
 
+export enum EnergyCalculationStrategy {
+    SmartMeter = 1,
+    Sensors = 2
+}
+
 export type LocationDetails = {
     id: number,
     name: string,
@@ -76,7 +81,9 @@ export type LocationDetails = {
     latitude: number,
     energyPriceAreaId: number,
     fixedEnergyPrice: number,
-    useFixedEnergyPrice: boolean
+    useFixedEnergyPrice: boolean,
+    energyCalculationStrategy: EnergyCalculationStrategy,
+    smartMeterSensorId: number
 }
 
 export type ZoneDetails = { id: number, name: string, description: string, mqttTopic: string, isDefaultOutsideZone: boolean, isDefaultInsideZone: boolean, locationId: number }
