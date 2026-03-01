@@ -10,13 +10,14 @@
 	import type {
 		TriggerDefinition,
 		PatchTrigger,
-		Condition,
+		ConditionGroup as ConditionGroupType,
 		EventDetails,
 		ActionDetails,
 		ActionBinding,
 		EventPropertyInfo
 	} from '$lib/models';
 	import { TextInput } from '$lib/components';
+	import ConditionGroup from '../../../components/ConditionGroup.svelte';
 	import {
 		Heading,
 		Table,
@@ -30,7 +31,6 @@
 	} from 'flowbite-svelte';
 	import type { LayoutData } from './$types';
 	import Grid from '../../../components/Grid.svelte';
-	import { ComparisonOperator } from '$lib/models';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { blur } from 'svelte/transition';
@@ -45,11 +45,6 @@
 	let testSuccessToasts: boolean[] = [];
 	let testErrorToasts: boolean[] = [];
 
-	// Initialize conditions array if it doesn't exist
-	if (!trigger.conditions) {
-		trigger.conditions = [];
-	}
-
 	// Initialize actions array if it doesn't exist
 	if (!trigger.actions) {
 		trigger.actions = [];
@@ -63,7 +58,8 @@
 
 	// Fetch event details when event ID changes
 	$: if (trigger.eventId !== previousEventId && previousEventId !== undefined && mounted) {
-		trigger.conditions = [];
+		trigger.condition = null;
+		trigger = trigger;
 		previousEventId = trigger.eventId;
 		loadEventDetails();
 	}
@@ -75,7 +71,6 @@
 			return;
 		}
 
-		// Load event details using the event ID
 		eventDetails = await getEventDetails(fetch, trigger.eventId);
 		propertyOptions = eventDetails.properties.map((prop) => ({
 			value: prop.name,
@@ -88,7 +83,6 @@
 			return;
 		}
 
-		// Load details for each unique action
 		const uniqueActionIds = [...new Set(trigger.actions.map((a) => a.actionId))];
 		for (const actionId of uniqueActionIds) {
 			if (!actionDetailsMap.has(actionId)) {
@@ -96,47 +90,17 @@
 				actionDetailsMap.set(actionId, details);
 			}
 		}
-		// Trigger reactivity
 		actionDetailsMap = actionDetailsMap;
 	}
 
-	// Operator options for the select dropdown
-	const operatorOptions = [
-		{ value: ComparisonOperator.Equals, name: 'Equals' },
-		{ value: ComparisonOperator.NotEquals, name: 'Not Equals' },
-		{ value: ComparisonOperator.GreaterThan, name: 'Greater Than' },
-		{ value: ComparisonOperator.GreaterOrEqual, name: 'Greater Or Equal' },
-		{ value: ComparisonOperator.LessThan, name: 'Less Than' },
-		{ value: ComparisonOperator.LessOrEqual, name: 'Less Or Equal' },
-		{ value: ComparisonOperator.Contains, name: 'Contains' },
-		{ value: ComparisonOperator.StartsWith, name: 'Starts With' },
-		{ value: ComparisonOperator.EndsWith, name: 'Ends With' }
-	];
-
-	function getOperatorLabel(operator: ComparisonOperator): string {
-		const option = operatorOptions.find((opt) => opt.value === operator);
-		return option ? option.name : 'Unknown';
-	}
-
-	function addCondition() {
-		trigger.conditions = [
-			...trigger.conditions,
-			{
-				propertyName: '',
-				operator: ComparisonOperator.Equals,
-				value: ''
-			}
-		];
-	}
-
-	function deleteCondition(index: number) {
-		trigger.conditions = trigger.conditions.filter((_, i) => i !== index);
+	function handleConditionChange(event: CustomEvent<ConditionGroupType>) {
+		trigger.condition = event.detail;
+		trigger = trigger;
 	}
 
 	async function addAction() {
-		// Add a new action binding with empty parameter map
 		const newAction: ActionBinding = {
-			actionId: 0, // Will be set by user
+			actionId: 0,
 			parameterMap: {}
 		};
 		trigger.actions = [...trigger.actions, newAction];
@@ -167,18 +131,15 @@
 		}
 	}
 
-	// When action ID changes, fetch its details and initialize parameter map
 	async function onActionIdChange(index: number, newActionId: number) {
 		if (!browser || newActionId === 0) return;
 
-		// Fetch action details if not already cached
 		if (!actionDetailsMap.has(newActionId)) {
 			const details = await getActionDetails(fetch, newActionId);
 			actionDetailsMap.set(newActionId, details);
-			actionDetailsMap = actionDetailsMap; // Trigger reactivity
+			actionDetailsMap = actionDetailsMap;
 		}
 
-		// Initialize parameter map with empty values for all parameters
 		const actionDetails = actionDetailsMap.get(newActionId);
 		if (actionDetails) {
 			const paramMap: Record<string, string> = {};
@@ -186,7 +147,7 @@
 				paramMap[param.name] = trigger.actions[index].parameterMap[param.name] || '';
 			});
 			trigger.actions[index].parameterMap = paramMap;
-			trigger.actions = trigger.actions; // Trigger reactivity
+			trigger.actions = trigger.actions;
 		}
 	}
 
@@ -202,50 +163,28 @@
 		await deleteTrigger(data.triggerId);
 	}
 
-	// Helper function to build dependency map for conditions
-	function buildDependencyMap(
-		conditions: Condition[],
-		currentIndex: number
-	): Record<string, string> {
-		const deps: Record<string, string> = {};
-
-		// Include values from previous conditions
-		for (let i = 0; i < currentIndex; i++) {
-			const cond = conditions[i];
-			if (cond.propertyName && cond.value) {
-				deps[cond.propertyName] = cond.value;
-			}
-		}
-
-		return deps;
-	}
-
-	// Helper function to build dependency map for action parameters
 	function buildActionDependencyMap(
 		parameterMap: Record<string, string>,
 		currentParamName: string
 	): Record<string, string> {
 		const deps: Record<string, string> = {};
-
-		// Include all other parameters that have values
 		for (const [key, value] of Object.entries(parameterMap)) {
 			if (key !== currentParamName && value) {
 				deps[key] = value;
 			}
 		}
-
 		return deps;
 	}
 
-	// Helper to get property details by name
-	function getPropertyByName(propertyName: string): EventPropertyInfo | undefined {
-		return eventDetails?.properties.find((p) => p.name === propertyName);
+	function collectLeafValues(node: ConditionGroupType): Record<string, string> {
+		if (node === null) return {};
+		if (node.type === 'condition') {
+			return node.propertyName && node.value ? { [node.propertyName]: node.value } : {};
+		}
+		return { ...collectLeafValues(node.left), ...collectLeafValues(node.right) };
 	}
 
-	// Helper to get lookup URL for a property
-	function getLookupUrl(propertyName: string): string | undefined {
-		return getPropertyByName(propertyName)?.lookupUrl;
-	}
+	$: allLeafValues = collectLeafValues(trigger.condition);
 </script>
 
 <Heading tag="h3" class="text-center">Edit Trigger</Heading>
@@ -260,87 +199,16 @@
 		bind:value={trigger.eventId}
 	/>
 
-	{#if trigger.conditions && trigger.conditions.length > 0}
-		<div class="col-span-full space-y-4">
-			<!-- Desktop Table View - Hidden on mobile -->
-			<div class="hidden md:block">
-				<Table divClass="relative overflow-x-auto rounded-md mt-5">
-					<TableHead>
-						<TableHeadCell>Property Name</TableHeadCell>
-						<TableHeadCell>Operator</TableHeadCell>
-						<TableHeadCell>Value</TableHeadCell>
-						<TableHeadCell>Actions</TableHeadCell>
-					</TableHead>
-					<TableBody>
-						{#each trigger.conditions as condition, index}
-							<TableBodyRow>
-								<TableBodyCell>
-									<SelectInput
-										items={propertyOptions}
-										bind:value={condition.propertyName}
-										placeholder="Select property"
-									/>
-								</TableBodyCell>
-								<TableBodyCell>
-									<SelectInput items={operatorOptions} bind:value={condition.operator} />
-								</TableBodyCell>
-								<TableBodyCell>
-									<SmartInput
-										bind:value={condition.value}
-										lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
-										dependencyValues={buildDependencyMap(trigger.conditions, index)}
-									/>
-								</TableBodyCell>
-								<TableBodyCell>
-									<Button size="xs" color="red" on:click={() => deleteCondition(index)}
-										>Delete</Button
-									>
-								</TableBodyCell>
-							</TableBodyRow>
-						{/each}
-					</TableBody>
-				</Table>
-			</div>
-
-			<!-- Mobile Card View - Visible on mobile only -->
-			<div class="md:hidden space-y-4">
-				{#each trigger.conditions as condition, index}
-					<div
-						class="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
-					>
-						<div class="space-y-3">
-							<SelectInput
-								label="Property Name"
-								items={propertyOptions}
-								bind:value={condition.propertyName}
-								placeholder="Select property"
-							/>
-							<SelectInput
-								label="Operator"
-								items={operatorOptions}
-								bind:value={condition.operator}
-							/>
-							<SmartInput
-								label="Value"
-								bind:value={condition.value}
-								lookupUrl={getPropertyByName(condition.propertyName)?.lookupUrl}
-								dependencyValues={buildDependencyMap(trigger.conditions, index)}
-							/>
-							<Button size="sm" color="red" class="w-full" on:click={() => deleteCondition(index)}>
-								Delete Condition
-							</Button>
-						</div>
-					</div>
-				{/each}
-			</div>
-		</div>
-	{:else}
-		<div class="col-span-full text-center text-gray-500 dark:text-gray-400 py-4">
-			No conditions defined
-		</div>
-	{/if}
-
-	<CreateButton on:click={addCondition}>Add Condition</CreateButton>
+	<div class="col-span-full space-y-2">
+		<Heading tag="h5" class="mb-2">Conditions</Heading>
+		<ConditionGroup
+			node={trigger.condition}
+			{propertyOptions}
+			eventProperties={eventDetails?.properties ?? []}
+			{allLeafValues}
+			on:change={handleConditionChange}
+		/>
+	</div>
 
 	<!-- Action Bindings Section -->
 	{#if trigger.actions && trigger.actions.length > 0}
@@ -556,3 +424,5 @@
 	<SaveButton on:click={save} />
 	<DeleteButton on:click={deleteTriggerHandler} />
 </Grid>
+
+<slot />

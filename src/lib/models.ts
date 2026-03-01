@@ -251,6 +251,11 @@ export enum ComparisonOperator {
     EndsWith = 8        // string ends with
 }
 
+export enum LogicalOperator {
+    And = 0,
+    Or = 1
+}
+
 
 /*
 public sealed record Condition
@@ -267,6 +272,21 @@ export type Condition = {
     value: string
 }
 
+export type ConditionNode = {
+    type: 'condition',
+    propertyName: string,
+    operator: ComparisonOperator,
+    value: string
+}
+
+export type LogicalNode = {
+    type: 'logical',
+    operator: LogicalOperator,
+    left: ConditionGroup,
+    right: ConditionGroup
+}
+
+export type ConditionGroup = ConditionNode | LogicalNode | null
 
 export type ActionBinding = {
     actionId: number,
@@ -276,7 +296,7 @@ export type ActionBinding = {
 export type TriggerDefinition = {
     name: string,
     eventId: number,
-    conditions: Condition[],
+    condition: ConditionGroup,
     actions: ActionBinding[],
 }
 
