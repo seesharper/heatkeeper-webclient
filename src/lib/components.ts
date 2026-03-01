@@ -14,6 +14,7 @@ export { default as EnergyPriceChart } from '../components/EnergyPriceChart.svel
 export { default as CronSelector } from '../components/CronSelector.svelte';
 export { default as GeoLocationInput } from '../components/GeoLocationInput.svelte';
 export { default as SmartInput } from '../components/SmartInput.svelte';
+export { default as ConditionGroup } from '../components/ConditionGroup.svelte';
 export { default as WindDirection } from '../components/WindDirection.svelte';
 export { default as CheckboxInput } from '../components/CheckboxInput.svelte';
 export { default as EnergyCostChart } from '../components/EnergyCostChart.svelte';
