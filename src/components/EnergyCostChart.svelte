@@ -34,7 +34,9 @@
 		if (isHourly) {
 			return date.getHours().toString();
 		} else if (resolution === Resolution.Daily) {
-			return date.toLocaleDateString('en-GB', { weekday: 'short' });
+			return displaySeries.length > 7
+				? date.getDate().toString()
+				: date.toLocaleDateString('en-GB', { weekday: 'short' });
 		} else {
 			return date.toLocaleDateString('en-GB', { month: 'short' });
 		}
@@ -43,6 +45,8 @@
 	const categories = displaySeries.map((e) => formatTimestamp(e.timestamp));
 
 	const n = displaySeries.length || 1;
+
+	const totalPowerImport = displaySeries.reduce((s, e) => s + e.powerImport, 0);
 
 	const stats = [
 		{
@@ -133,5 +137,10 @@
 		{#each stats as stat}
 			<div class="text-gray-600 dark:text-gray-400">{stat.avg.toFixed(2)}</div>
 		{/each}
+
+	</div>
+	<div class="mt-4 border-t border-gray-200 pt-4 text-sm dark:border-gray-700">
+		<span class="font-medium text-gray-600 dark:text-gray-400">Power Import</span>
+		<span class="ml-2 text-gray-600 dark:text-gray-400">{totalPowerImport.toFixed(2)} kWh</span>
 	</div>
 </Card>
