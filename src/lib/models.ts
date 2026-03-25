@@ -142,9 +142,17 @@ export type TemperatureTimeSeries = {
     timeSeries: TemperatureEntry[]
 }
 
+export type ZoneSetPoint = {
+    id: number,
+    scheduleName: string,
+    value: number,
+    hysteresis: number
+}
+
 export type ZoneInsights = {
     temperatures: TemperatureTimeSeries,
-    energyCosts: EnergyCost
+    energyCosts: EnergyCost,
+    setPoints: ZoneSetPoint[]
 }
 
 export type VatRateInfo = { id: number, name: string, rate: number }

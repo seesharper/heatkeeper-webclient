@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { baseUrl } from '$lib/environment';
-	import type { ZoneInsights } from '$lib/models';
+	import type { ZoneInsights, ZoneSetPoint } from '$lib/models';
 	import { Resolution } from '$lib/models';
-	import { CenteredHeader, EnergyCostChart, Grid, SelectInput } from '$lib/components';
-	import { Chart, Card } from 'flowbite-svelte';
+	import { CenteredHeader, EnergyCostChart, Grid, SelectInput, SaveButton } from '$lib/components';
+	import { Chart, Card, Range, Heading } from 'flowbite-svelte';
 	import type { ApexOptions } from 'apexcharts';
 	import type { PageData } from './$types';
+	import { updateSetPoint } from '$lib/api';
 
 	export let data: PageData;
 
@@ -23,6 +24,13 @@
 
 	let selectedTimePeriod: number = 1;
 	let insights: ZoneInsights = data.zoneInsights;
+	let setPoints: ZoneSetPoint[] = data.zoneInsights.setPoints ?? [];
+
+	async function handleSaveSetPoints() {
+		for (const sp of setPoints) {
+			await updateSetPoint({ id: sp.id, value: sp.value, hysteresis: sp.hysteresis });
+		}
+	}
 
 	async function apiFetch<T>(url: string): Promise<T | null> {
 		const response = await fetch(url, { credentials: 'include' });
@@ -94,6 +102,19 @@
 
 <CenteredHeader>Zone Insights</CenteredHeader>
 <Grid>
+	{#if setPoints.length > 0}
+		<Card>
+			<CenteredHeader>Setpoints</CenteredHeader>
+			{#each setPoints as sp}
+				<Heading tag="h6" class="mt-4">{sp.scheduleName}</Heading>
+				<p class="text-sm text-gray-400">{sp.value.toFixed(1)} °C</p>
+				<Range min={0} max={30} step={0.5} bind:value={sp.value} />
+			{/each}
+			<div class="mt-4">
+				<SaveButton on:click={async () => await handleSaveSetPoints()} />
+			</div>
+		</Card>
+	{/if}
 	<div class="flex flex-col gap-4">
 		<SelectInput
 			label="Time Period"
