@@ -70,7 +70,7 @@
 
 		return {
 			chart: {
-				type: 'line',
+				type: 'area',
 				height: 350,
 				toolbar: { show: false },
 				foreColor: '#FFF'
@@ -82,6 +82,15 @@
 				}
 			],
 			colors: ['#f59e0b'],
+			fill: {
+				type: 'gradient',
+				gradient: {
+					shadeIntensity: 1,
+					opacityFrom: 0.5,
+					opacityTo: 0.05,
+					stops: [0, 90, 100]
+				}
+			},
 			xaxis: {
 				type: 'category',
 				categories: timeSeries.map((e) => formatTimestamp(e.timestamp)),
@@ -95,7 +104,10 @@
 			stroke: { curve: 'smooth', width: 2 },
 			markers: { size: 0 },
 			dataLabels: { enabled: false },
-			legend: { show: false }
+			legend: { show: false },
+			grid: {
+				borderColor: '#ffffff15'
+			}
 		};
 	}
 </script>
