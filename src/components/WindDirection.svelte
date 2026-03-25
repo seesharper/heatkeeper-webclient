@@ -21,7 +21,7 @@
 	}
 
 	function getRotation(degrees: number | null): number {
-		return degrees !== null ? degrees : 0;
+		return degrees !== null ? (degrees + 180) % 360 : 0;
 	}
 
 	$: directionLabel = getWindDirectionIcon(direction);

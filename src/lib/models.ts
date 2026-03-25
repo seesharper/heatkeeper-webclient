@@ -132,7 +132,20 @@ export type UserLocationAccess = { locationId: number, locationName: string, has
 export type DeadSensor = { id: number, name: string, externalId: string, zone: string, location: string, lastSeen: Date }
 export type Measurement = { value: number, created: Date }
 
-export type ZoneInsights = { zoneId: number, zoneName: string, temperatureMeasurements: Measurement[], humidityMeasurements: Measurement[] }
+export type TemperatureEntry = {
+    timestamp: string,
+    temperature: number
+}
+
+export type TemperatureTimeSeries = {
+    resolution: Resolution,
+    timeSeries: TemperatureEntry[]
+}
+
+export type ZoneInsights = {
+    temperatures: TemperatureTimeSeries,
+    energyCosts: EnergyCost
+}
 
 export type VatRateInfo = { id: number, name: string, rate: number }
 

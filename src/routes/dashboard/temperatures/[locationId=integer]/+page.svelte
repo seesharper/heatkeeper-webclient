@@ -25,7 +25,7 @@
 		});
 	}
 	async function handleClick(zoneReading: ZoneReading) {
-		goto('/zone-details/' + zoneReading.zoneId);
+		goto('/zone-insights/' + zoneReading.zoneId);
 	}
 </script>
 
