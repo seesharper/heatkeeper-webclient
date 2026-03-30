@@ -18,3 +18,4 @@ export { default as ConditionGroup } from '../components/ConditionGroup.svelte';
 export { default as WindDirection } from '../components/WindDirection.svelte';
 export { default as CheckboxInput } from '../components/CheckboxInput.svelte';
 export { default as EnergyCostChart } from '../components/EnergyCostChart.svelte';
+export { default as EnergyConsumers } from '../components/EnergyConsumers.svelte';

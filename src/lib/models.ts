@@ -493,3 +493,10 @@ export type EnergyCost = {
     resolution: Resolution,
     timeSeries: EnergyCostEntry[]
 }
+
+export type EnergyConsumer = {
+    sensorId: number,
+    sensorName: string,
+    activePowerImport: number,
+    updated: string
+}
