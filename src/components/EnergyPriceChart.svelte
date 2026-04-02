@@ -51,7 +51,9 @@
 			tickAmount: 10,
 			labels: {
 				formatter: function (value) {
-					return new Date(value).getHours().toString();
+					const s = String(value);
+					const d = new Date(s.endsWith('Z') || s.includes('+') ? s : s + 'Z');
+					return d.getHours().toString();
 				},
 				hideOverlappingLabels: false
 			}
