@@ -29,16 +29,20 @@
 	const isHourly = resolution === Resolution.Hourly;
 	const displaySeries = isHourly ? aggregatePairs(timeSeries) : timeSeries;
 
+	function parseUtcTimestamp(value: string): Date {
+		return new Date(value.endsWith('Z') || value.includes('+') ? value : value + 'Z');
+	}
+
 	function formatTimestamp(value: string): string {
-		const date = new Date(value);
+		const date = parseUtcTimestamp(value);
 		if (isHourly) {
 			return date.getHours().toString();
 		} else if (resolution === Resolution.Daily) {
 			return displaySeries.length > 7
-				? date.getDate().toString()
-				: date.toLocaleDateString('en-GB', { weekday: 'short' });
+				? date.getUTCDate().toString()
+				: date.toLocaleDateString('en-GB', { weekday: 'short', timeZone: 'UTC' });
 		} else {
-			return date.toLocaleDateString('en-GB', { month: 'short' });
+			return date.toLocaleDateString('en-GB', { month: 'short', timeZone: 'UTC' });
 		}
 	}
 
