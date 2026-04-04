@@ -11,15 +11,7 @@
 		return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 	}
 
-	function formatDate(iso: string): string {
-		return new Date(iso).toLocaleDateString([], { day: 'numeric', month: 'long' });
-	}
-
-	function formatHour(iso: string): string {
-		return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }).slice(0, 2);
-	}
-
-	function formatPeriodRange(from: string, to: string): string {
+function formatPeriodRange(from: string, to: string): string {
 		const h1 = new Date(from).getHours().toString().padStart(2, '0');
 		const h2 = new Date(to).getHours().toString().padStart(2, '0');
 		return `${h1}–${h2}`;
@@ -50,8 +42,8 @@
 				<!-- Right: location name, date, time -->
 				<div class="text-right">
 					<div class="text-sm font-semibold text-gray-300 mb-1">{entry.location.name}</div>
-					<div class="text-sm text-gray-400">{formatDate(entry.forecast.instant.from)}</div>
-					<div class="text-3xl font-light">{formatHour(entry.forecast.instant.from)}:{new Date(entry.forecast.instant.from).getMinutes().toString().padStart(2, '0')}</div>
+					<div class="text-sm text-gray-400">{new Date().toLocaleDateString([], { day: 'numeric', month: 'long' })}</div>
+					<div class="text-3xl font-light">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
 				</div>
 			</div>
 
