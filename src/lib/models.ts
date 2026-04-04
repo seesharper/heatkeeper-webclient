@@ -34,9 +34,36 @@ export interface LoginRequest {
 export interface DashboardLocation {
     id: number;
     name: string;
-    activeProgramId: number;
-    outsideTemperature: number;
-    insideTemperature: number;
+    programName: string;
+    scheduleName: string;
+    outsideTemperature: number | null;
+    insideTemperature: number | null;
+}
+
+export type SunEvents = {
+    sunriseUtc: string;
+    sunsetUtc: string;
+}
+
+export type DashboardForecastPeriod = {
+    from: string;
+    to: string;
+    symbolCode: string;
+    temperature: number | null;
+}
+
+export type DashboardForecast = {
+    instant: DashboardForecastPeriod;
+    firstPeriod: DashboardForecastPeriod | null;
+    secondPeriod: DashboardForecastPeriod | null;
+    thirdPeriod: DashboardForecastPeriod | null;
+    fourthPeriod: DashboardForecastPeriod | null;
+}
+
+export type DashboardEntry = {
+    location: DashboardLocation;
+    forecast: DashboardForecast;
+    sunEvents: SunEvents;
 }
 
 export type LocationInfo = {
